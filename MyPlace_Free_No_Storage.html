@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyPlace</title>
+<style>
+:root{--blue:#2563eb;--blue-dark:#1d4ed8;--bg:#f1f5ff;--card:#fff;--text:#172033;--muted:#64748b;--line:#e2e8f0;--soft:#eaf1ff}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.auth-wrap{max-width:460px;margin:24px auto;padding:14px}.brand{text-align:center;color:var(--blue);font-size:32px;font-weight:800;margin:18px 0}
+.auth-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 10px 30px rgba(30,64,175,.08)}
+h1,h2,h3{margin-top:0}.auth-card h2{text-align:center;margin-bottom:8px}.muted{color:var(--muted);font-size:14px}.center{text-align:center}
+.field-label{display:block;color:var(--muted);font-size:14px;margin:14px 0 6px}.field{display:block;width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;background:white;color:#172033;outline-color:var(--blue)}
+.btn{border:0;border-radius:12px;padding:12px 15px;background:var(--blue);color:white;font-weight:700}.btn:hover{background:var(--blue-dark)}
+.btn.full{width:100%;margin-top:12px}.btn.outline{background:white;color:var(--text);border:1px solid var(--line)}.btn.soft{background:var(--soft);color:var(--blue)}
+.divider{display:flex;align-items:center;gap:12px;color:var(--muted);margin:18px 0 8px;font-size:13px}.divider:before,.divider:after{content:"";height:1px;background:var(--line);flex:1}
+.link{color:var(--blue);font-weight:700;cursor:pointer}.notice{margin-top:16px;padding:12px;background:#fff7ed;color:#9a3412;border-radius:12px;font-size:12px;line-height:1.5}
+#appScreen{max-width:900px;min-height:100vh;margin:auto;padding-bottom:82px}.topbar{background:white;border-bottom:1px solid var(--line);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.topbrand{color:var(--blue);font-weight:800;font-size:22px}.top-actions{display:flex;gap:8px}.icon-btn{border:0;border-radius:10px;background:var(--soft);color:var(--blue);padding:10px 12px}
+.page{display:none;padding:18px 15px}.page.active{display:block}.hero{padding:25px 20px;border-radius:20px;color:white;background:linear-gradient(135deg,#2563eb,#60a5fa);margin-bottom:18px}
+.hero h1{margin-bottom:8px}.hero p{margin:0;line-height:1.5}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:13px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tile{background:var(--soft);padding:16px;border-radius:15px;cursor:pointer;min-height:105px}
+.tile b{display:block;margin:8px 0 5px}.row{display:flex;align-items:center;gap:10px}.avatar{width:42px;height:42px;flex:none;border-radius:50%;display:grid;place-items:center;background:#dbeafe;color:var(--blue);font-weight:800}
+.post-text{line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.section-title{margin:20px 0 12px;font-size:19px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);z-index:6}.nav-inner{max-width:900px;margin:auto;display:flex;justify-content:space-around;padding:8px 2px calc(8px + env(safe-area-inset-bottom))}
+.nav-btn{border:0;background:transparent;color:var(--muted);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:55px;padding:5px}
+.nav-btn span{font-size:20px}.nav-btn.active{color:var(--blue);font-weight:800}.reel-box{height:280px;border-radius:18px;background:linear-gradient(145deg,#1e3a8a,#7c3aed);color:white;display:grid;place-items:center;text-align:center;font-size:22px;font-weight:800;padding:20px}
+.tag{display:inline-block;background:var(--soft);color:var(--blue);border-radius:20px;padding:5px 9px;font-size:11px;font-weight:700}
+.composer{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}
+.composer textarea{width:100%;min-height:90px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:13px;outline-color:var(--blue);color:#172033;background:white}
+.composer-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}
+#postStatus{display:block;min-height:18px;line-height:1.4;flex:1}
+.media-preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.media-preview img,.media-preview video{width:92px;height:92px;object-fit:cover;border-radius:10px}
+.post-media{width:100%;max-height:430px;object-fit:contain;border-radius:12px;margin-top:10px;background:#0f172a}
+.post-actions button{background:var(--soft);color:var(--blue);border:0;border-radius:10px;padding:9px 12px;font-weight:700}
+.post-actions button.liked{background:#fee2e2;color:#dc2626}
+.comment-area{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}.comment-list{margin-top:8px}.comment-item{padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;overflow-wrap:anywhere}
+.comment-form{display:flex;gap:7px;margin-top:9px}.comment-form input{min-width:0;flex:1;padding:10px;border:1px solid var(--line);border-radius:10px}
+.poll-option{display:block;width:100%;text-align:left;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;margin:7px 0;color:var(--text)}
+.poll-option:disabled{opacity:1}.poll-option.selected{border-color:var(--blue);background:#dbeafe}
+.poll-result{float:right;color:var(--blue);font-weight:700}.small-status{font-size:12px;color:var(--muted);margin-top:7px}
+body.dark{--bg:#0f172a;--card:#172235;--text:#e5edf9;--muted:#a5b4c9;--line:#334155;--soft:#20375e}
+body.dark .auth-card,body.dark .card,body.dark .topbar,body.dark .bottom-nav,body.dark .composer{background:var(--card);color:var(--text)}
+body.dark .field,body.dark .btn.outline,body.dark .composer textarea,body.dark .comment-form input{background:#172235;color:white}
+body.dark .notice{background:#422c18;color:#fed7aa}body.dark .poll-option{color:white}
+@media(min-width:650px){.page{padding:24px}.hero{padding:34px}}
+</style>
+</head>
+<body>
+<section id="authScreen"><div class="auth-wrap"><div class="brand">🔵 MyPlace</div><div class="auth-card">
+<h2 id="authTitle">Welcome to MyPlace</h2><p class="muted center" id="authSubtitle">Your Space. Your Community.</p>
+<div id="nameFieldWrap" class="hidden"><label class="field-label" for="fullName">Full name</label><input class="field" id="fullName" type="text" placeholder="Enter your name" autocomplete="name"></div>
+<label class="field-label" for="email">Email address</label><input class="field" id="email" type="email" placeholder="you@example.com" autocomplete="email">
+<label class="field-label" for="password">Password</label><input class="field" id="password" type="password" placeholder="At least 6 characters" autocomplete="current-password">
+<button class="btn full" id="emailAction" type="button">Continue with Email</button>
+<div class="divider">OR</div><button class="btn outline full" id="googleBtn" type="button">🌐 Continue with Google</button>
+<button class="btn outline full" id="phoneBtn" type="button">📱 Continue with Phone</button>
+<p class="center muted" id="authSwitch">New here? <span class="link" id="switchAuth">Create account</span></p>
+<div class="notice">Email/password login is connected. Google sign-in and phone OTP are not connected yet. Never share your password or OTP.</div>
+<p id="status" class="muted center" aria-live="polite"></p>
+</div></div></section>
+
+<section id="appScreen" class="hidden"><header class="topbar"><div class="topbrand">🔵 MyPlace</div><div class="top-actions">
+<button class="icon-btn" id="themeBtn" type="button">◐</button><button class="icon-btn" id="profileTopBtn" type="button">👤</button>
+</div></header><main>
+<section id="home" class="page active"><div class="hero"><h1>Your place to connect.</h1><p>Learn together, find your community and discover opportunities.</p></div>
+<h3 class="section-title">Explore MyPlace</h3><div class="grid">
+<div class="tile" data-go="study">📚<b>Study</b><small class="muted">Learn and share notes</small></div><div class="tile" data-go="community">👥<b>Community</b><small class="muted">Find your people</small></div>
+<div class="tile" data-go="reels">▶️<b>Reels</b><small class="muted">Short video space</small></div><div class="tile" data-go="work">💼<b>Work</b><small class="muted">Explore opportunities</small></div></div>
+<h3 class="section-title">Community feed</h3>
+<div class="composer">
+<label class="field-label" for="postInput">Share something with your community</label>
+<textarea id="postInput" maxlength="2000" placeholder="What would you like to share?"></textarea>
+<div class="actions">
+<span class="tag">Text posts · Likes · Comments · Polls</span>
+<button class="btn soft" id="pollToggle" type="button">📊 Create poll</button>
+</div>
+<div id="pollComposer" class="hidden card" style="margin-top:10px">
+<label class="field-label" for="pollQuestion">Poll question</label><input class="field" id="pollQuestion" maxlength="180" placeholder="Ask your community...">
+<label class="field-label">Poll options (at least 2)</label><input class="field poll-input" maxlength="80" placeholder="Option 1"><input class="field poll-input" style="margin-top:7px" maxlength="80" placeholder="Option 2"><input class="field poll-input" style="margin-top:7px" maxlength="80" placeholder="Option 3 (optional)"><input class="field poll-input" style="margin-top:7px" maxlength="80" placeholder="Option 4 (optional)">
+</div>
+<div class="composer-footer"><span class="muted" id="postStatus" aria-live="polite">Text posts and polls are supported in this free version.</span><button class="btn" id="publishPostBtn" type="button">＋ Post</button></div>
+</div>
+<div id="feed"><article class="card"><p class="muted center">Loading community posts...</p></article></div>
+</section>
+<section id="study" class="page"><div class="hero"><h1>Study Space 📚</h1><p>Share notes, ask questions and learn together.</p></div><div class="card"><b>Mathematics</b><p class="muted">Practice, formulas and explanations.</p><span class="tag">Learning space</span></div><div class="card"><b>Computer Science</b><p class="muted">Programming and technology discussions.</p><span class="tag">Learning space</span></div><div class="card"><b>Physics</b><p class="muted">Concepts, problems and notes.</p><span class="tag">Learning space</span></div><button class="btn full" id="studyShareBtn" type="button">＋ Share study material</button></section>
+<section id="community" class="page"><div class="hero"><h1>Communities 👥</h1><p>Find people who share your interests.</p></div><input class="field" id="communitySearch" placeholder="Search communities..."><div id="communityList">
+<div class="card community"><div class="row"><div class="avatar">C</div><div style="flex:1"><b>Computer Science Club</b><div class="muted">Programming · Student community</div></div><button class="btn soft join-btn" type="button">Join</button></div></div>
+<div class="card community"><div class="row"><div class="avatar">B</div><div style="flex:1"><b>Books & Learning</b><div class="muted">Reading · Study community</div></div><button class="btn soft join-btn" type="button">Join</button></div></div>
+<div class="card community"><div class="row"><div class="avatar">D</div><div style="flex:1"><b>Design & Creativity</b><div class="muted">Art · Creative community</div></div><button class="btn soft join-btn" type="button">Join</button></div></div></div></section>
+<section id="reels" class="page"><div class="hero"><h1>MyPlace Reels ▶️</h1><p>A space for short clips from your learning and community life.</p></div><div class="reel-box">🎬<br>Reel preview</div><div class="card"><b>Video posts</b><p class="muted">You can now attach videos to feed posts.</p></div></section>
+<section id="work" class="page"><div class="hero"><h1>Work & Opportunities 💼</h1><p>Explore projects, volunteering and skill-building opportunities.</p></div><div class="card"><span class="tag">Project</span><h3>Build a student portfolio</h3><p class="muted">Practice your skills by creating a simple portfolio project.</p><button class="btn soft save-btn" type="button">Save opportunity</button></div><div class="card"><span class="tag">Volunteering</span><h3>Campus community helper</h3><p class="muted">Help organize learning activities and student events.</p><button class="btn soft save-btn" type="button">Save opportunity</button></div><div class="notice">These are sample opportunities, not verified job listings.</div></section>
+<section id="profile" class="page"><div class="hero"><h1>Your Profile 👤</h1><p>Make your MyPlace profile your own.</p></div><div class="card center"><div class="avatar" id="profileAvatar" style="margin:auto;width:64px;height:64px;font-size:24px">M</div><h2 id="profileName">MyPlace Member</h2><p class="muted" id="profileEmail">Loading profile...</p><button class="btn soft" id="editProfileBtn" type="button">Edit profile</button></div><div class="card"><b>Account settings</b><p class="muted">Change the app theme or log out.</p><button class="btn outline full" id="themeSettingsBtn" type="button">Toggle light / dark theme</button><button class="btn outline full" id="logoutBtn" type="button">Log out</button></div></section>
+</main><nav class="bottom-nav"><div class="nav-inner"><button class="nav-btn active" data-nav="home" type="button"><span>⌂</span>Home</button><button class="nav-btn" data-nav="study" type="button"><span>📚</span>Study</button><button class="nav-btn" data-nav="community" type="button"><span>👥</span>Community</button><button class="nav-btn" data-nav="reels" type="button"><span>▶</span>Reels</button><button class="nav-btn" data-nav="work" type="button"><span>💼</span>Work</button></div></nav></section>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp, addDoc, collection, query, orderBy, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB54QdFqO7RLTDwDd5S9990AD9HnRnLbHs",
+  authDomain: "myplace-4bb5a.firebaseapp.com",
+  projectId: "myplace-4bb5a",
+    messagingSenderId: "449640190842",
+  appId: "1:449640190842:web:26bc785bb9fc6677523cc3"
+};
+const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
+let authMode="login", currentUser=null, stopPostsListener=null;
+const byId=id=>document.getElementById(id);
+
+function setStatus(message,isError=false){byId("status").textContent=message;byId("status").style.color=isError?"#dc2626":""}
+function setAuthMode(mode){
+ authMode=mode;const signup=mode==="signup";
+ byId("authTitle").textContent=signup?"Create your account":"Welcome to MyPlace";
+ byId("authSubtitle").textContent=signup?"Join your community":"Your Space. Your Community.";
+ byId("nameFieldWrap").classList.toggle("hidden",!signup);
+ byId("emailAction").textContent=signup?"Create account":"Continue with Email";
+ byId("password").autocomplete=signup?"new-password":"current-password";
+ byId("authSwitch").innerHTML=signup?'Already a member? <span class="link" id="switchAuth">Log in</span>':'New here? <span class="link" id="switchAuth">Create account</span>';
+ byId("switchAuth").addEventListener("click",()=>setAuthMode(signup?"login":"signup"));setStatus("");
+}
+async function saveUserProfile(user,preferredName=""){
+ const userRef=doc(db,"users",user.uid),snap=await getDoc(userRef),existing=snap.exists()?snap.data():{};
+ const name=preferredName||user.displayName||existing.name||(user.email?user.email.split("@")[0]:"MyPlace Member");
+ const data={uid:user.uid,name,email:user.email||"",updatedAt:serverTimestamp()};if(!snap.exists())data.createdAt=serverTimestamp();
+ await setDoc(userRef,data,{merge:true});return{name,email:user.email||""};
+}
+function enterApp(name,email){
+ byId("profileName").textContent=name;byId("profileEmail").textContent=email;byId("profileAvatar").textContent=(name.trim()[0]||"M").toUpperCase();
+ byId("authScreen").classList.add("hidden");byId("appScreen").classList.remove("hidden");showPage("home");startPostsFeed();
+}
+async function handleEmailAction(){
+ const email=byId("email").value.trim(),password=byId("password").value;if(!email||!email.includes("@"))return alert("Please enter a valid email address.");if(password.length<6)return alert("Password must be at least 6 characters.");
+ const button=byId("emailAction");button.disabled=true;button.textContent="Please wait...";setStatus("");
+ try{if(authMode==="signup"){const name=byId("fullName").value.trim();if(!name)throw new Error("Please enter your full name.");const result=await createUserWithEmailAndPassword(auth,email,password);await updateProfile(result.user,{displayName:name});await saveUserProfile(result.user,name);}else await signInWithEmailAndPassword(auth,email,password);}
+ catch(error){console.error(error);let m=error.message||"Something went wrong.";if(error.code==="auth/email-already-in-use")m="This email already has an account. Please log in.";if(error.code==="auth/invalid-credential"||error.code==="auth/wrong-password"||error.code==="auth/user-not-found")m="Email or password is incorrect.";if(error.code==="permission-denied")m="Firestore permission denied. Check Firestore Rules.";alert(m);}
+ finally{button.disabled=false;button.textContent=authMode==="signup"?"Create account":"Continue with Email";}
+}
+function showPage(id){document.querySelectorAll("#appScreen main .page").forEach(p=>p.classList.remove("active"));byId(id).classList.add("active");document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.nav===id));window.scrollTo(0,0)}
+function toggleTheme(){document.body.classList.toggle("dark")}
+function formatDate(t){return t&&typeof t.toDate==="function"?t.toDate().toLocaleString():"Just now"}
+function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}
+
+function clearComposer(){
+ byId("postInput").value="";
+ byId("pollQuestion").value="";document.querySelectorAll(".poll-input").forEach(i=>i.value="");byId("pollComposer").classList.add("hidden");
+}
+byId("pollToggle").addEventListener("click",()=>byId("pollComposer").classList.toggle("hidden"));
+
+async function publishPost(){
+ const text=byId("postInput").value.trim(),pollOpen=!byId("pollComposer").classList.contains("hidden");
+ const question=byId("pollQuestion").value.trim(),options=[...document.querySelectorAll(".poll-input")].map(i=>i.value.trim()).filter(Boolean);
+ if(!currentUser)return alert("Please log in again.");
+ if(!text&&!pollOpen)return alert("Write something or create a poll.");
+ if(pollOpen&&(!question||options.length<2))return alert("A poll needs a question and at least 2 options.");
+ if(pollOpen&&options.length!==new Set(options).size)return alert("Poll options must be different.");
+ const btn=byId("publishPostBtn"),status=byId("postStatus");btn.disabled=true;
+ try{
+  status.textContent="Saving post...";
+  const data={uid:currentUser.uid,authorName:currentUser.displayName||byId("profileName").textContent||"MyPlace Member",content:text,createdAt:serverTimestamp()};
+  if(pollOpen)data.poll={question,options};
+  const result=await addDoc(collection(db,"posts"),data);clearComposer();status.textContent="Post published!";alert("MyPlace post Firebase mein save ho gayi!");
+ }catch(error){console.error(error);status.textContent="Error: "+(error.code||"")+" "+error.message;alert("Post publish nahi hui:\n"+(error.code||"")+"\n"+error.message)}
+ finally{btn.disabled=false}
+}
+
+function renderPost(postId,post){
+ const article=el("article","card");article.id="post-"+postId;
+ const header=el("div","row"),avatar=el("div","avatar",(post.authorName||"M").trim()[0].toUpperCase()),info=el("div"),author=el("b","",post.authorName||"MyPlace Member"),date=el("div","muted",formatDate(post.createdAt));
+ info.append(author,date);header.append(avatar,info);article.append(header);
+ if(post.content){article.append(el("p","post-text",post.content))}
+ const actions=el("div","actions post-actions"),likeBtn=el("button","","♡ Like"),commentJump=el("button","","💬 Comments"),shareBtn=el("button","","↗ Share");
+ const likeCount=el("span","muted","Loading likes...");actions.append(likeBtn,commentJump,shareBtn,likeCount);article.append(actions);
+ const likesRef=collection(db,"posts",postId,"likes"),myLikeRef=doc(db,"posts",postId,"likes",currentUser.uid);
+ let liked=false;
+ onSnapshot(likesRef,snap=>{likeCount.textContent="❤️ "+snap.size+" likes";liked=snap.docs.some(d=>d.id===currentUser.uid);likeBtn.classList.toggle("liked",liked);likeBtn.textContent=liked?"♥ Liked":"♡ Like"},err=>console.warn("Likes listener",err));
+ likeBtn.addEventListener("click",async()=>{
+  likeBtn.disabled=true;try{await runTransaction(db,async tx=>{const s=await tx.get(myLikeRef);if(s.exists())tx.delete(myLikeRef);else tx.set(myLikeRef,{uid:currentUser.uid,createdAt:serverTimestamp()})})}
+  catch(e){alert("Like update failed: "+e.message)}finally{likeBtn.disabled=false}
+ });
+ shareBtn.addEventListener("click",async()=>{
+  const shareUrl=location.href.split("#")[0]+"#post-"+postId;
+  try{if(navigator.share)await navigator.share({title:"MyPlace post",text:post.content||"Check out this MyPlace post",url:shareUrl});else{await navigator.clipboard.writeText(shareUrl);alert("Post link copied!")} }catch(e){if(e.name!=="AbortError")alert("Share unavailable. Link: "+shareUrl)}
+ });
+ const comments=el("div","comment-area"),commentList=el("div","comment-list"),form=el("form","comment-form"),input=el("input"),send=el("button","btn","Send");
+ input.placeholder="Write a comment...";input.maxLength=500;send.type="submit";form.append(input,send);comments.append(el("b","","Comments"),commentList,form);article.append(comments);
+ const commentsRef=collection(db,"posts",postId,"comments");
+ onSnapshot(query(commentsRef,orderBy("createdAt","asc")),snap=>{commentList.replaceChildren();if(snap.empty)commentList.append(el("p","muted","No comments yet."));snap.forEach(d=>{const c=d.data(),line=el("div","comment-item");const b=el("b","",c.authorName||"Member");line.append(b,document.createTextNode(" "+(c.text||"")));commentList.append(line)})},err=>{commentList.textContent="Comments unavailable: "+err.message});
+ form.addEventListener("submit",async e=>{e.preventDefault();const value=input.value.trim();if(!value)return;send.disabled=true;try{await addDoc(commentsRef,{uid:currentUser.uid,authorName:currentUser.displayName||"MyPlace Member",text:value,createdAt:serverTimestamp()});input.value=""}catch(err){alert("Comment failed: "+err.message)}finally{send.disabled=false}});
+ commentJump.addEventListener("click",()=>comments.scrollIntoView({behavior:"smooth",block:"center"}));
+ if(post.poll&&Array.isArray(post.poll.options)){
+  const pollBox=el("div","card");pollBox.style.marginTop="12px";pollBox.append(el("b","",post.poll.question||"Poll"));
+  const voteRef=collection(db,"posts",postId,"votes"),myVote=doc(db,"posts",postId,"votes",currentUser.uid);
+  onSnapshot(voteRef,snap=>{
+   const myDoc=snap.docs.find(d=>d.id===currentUser.uid),total=snap.size;pollBox.querySelectorAll(".poll-option").forEach(n=>n.remove());
+   post.poll.options.forEach((option,index)=>{const count=snap.docs.filter(d=>d.data().optionIndex===index).length,button=el("button","poll-option");button.disabled=!!myDoc;button.textContent=option+"  ·  "+(total?Math.round(count/total*100):0)+"%";if(myDoc&&myDoc.data().optionIndex===index)button.classList.add("selected");const countLabel=el("span","poll-result",String(count));button.append(countLabel);button.addEventListener("click",async()=>{button.disabled=true;try{await runTransaction(db,async tx=>{const old=await tx.get(myVote);if(!old.exists())tx.set(myVote,{uid:currentUser.uid,optionIndex:index,createdAt:serverTimestamp()})})}catch(e){alert("Vote failed: "+e.message)}});pollBox.append(button)});
+   const note=el("div","small-status",myDoc?"You have voted.":"Choose one option to vote.");const oldNote=pollBox.querySelector(".small-status");if(oldNote)oldNote.remove();pollBox.append(note);
+  },err=>console.warn("Poll listener",err));
+  article.append(pollBox);
+ }
+ return article;
+}
+function startPostsFeed(){
+ if(stopPostsListener)stopPostsListener();
+ stopPostsListener=onSnapshot(query(collection(db,"posts"),orderBy("createdAt","desc")),snap=>{
+  const feed=byId("feed");feed.replaceChildren();
+  if(snap.empty){feed.append(el("article","card center","No posts yet. Be the first to share something!"));return}
+  snap.forEach(d=>feed.append(renderPost(d.id,d.data())));
+ },error=>{console.error(error);byId("feed").textContent="Could not load posts: "+error.message});
+}
+async function logout(){try{if(stopPostsListener){stopPostsListener();stopPostsListener=null}await signOut(auth)}catch(e){alert("Logout failed: "+e.message)}}
+
+byId("emailAction").addEventListener("click",handleEmailAction);
+byId("switchAuth").addEventListener("click",()=>setAuthMode("signup"));
+byId("googleBtn").addEventListener("click",()=>alert("Google sign-in is not connected yet."));
+byId("phoneBtn").addEventListener("click",()=>alert("Phone OTP is not connected yet."));
+byId("themeBtn").addEventListener("click",toggleTheme);byId("themeSettingsBtn").addEventListener("click",toggleTheme);
+byId("profileTopBtn").addEventListener("click",()=>showPage("profile"));byId("logoutBtn").addEventListener("click",logout);
+byId("publishPostBtn").addEventListener("click",publishPost);
+byId("studyShareBtn").addEventListener("click",()=>alert("For now, share study material as a post from Home."));
+byId("editProfileBtn").addEventListener("click",async()=>{const n=prompt("Enter your profile name:",byId("profileName").textContent);if(!n||!n.trim()||!currentUser)return;try{const name=n.trim();await updateProfile(currentUser,{displayName:name});await updateDoc(doc(db,"users",currentUser.uid),{name,updatedAt:serverTimestamp()});byId("profileName").textContent=name;byId("profileAvatar").textContent=name[0].toUpperCase()}catch(e){alert("Profile update failed: "+e.message)}});
+document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.nav)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.go)));
+document.querySelectorAll(".join-btn").forEach(b=>b.addEventListener("click",()=>b.textContent=b.textContent==="Join"?"Joined":"Join"));
+document.querySelectorAll(".save-btn").forEach(b=>b.addEventListener("click",()=>b.textContent=b.textContent==="Saved"?"Save opportunity":"Saved"));
+byId("communitySearch").addEventListener("input",e=>{const q=e.target.value.toLowerCase();document.querySelectorAll(".community").forEach(c=>c.classList.toggle("hidden",!c.textContent.toLowerCase().includes(q)))});
+
+onAuthStateChanged(auth,async user=>{
+ currentUser=user;
+ if(!user){if(stopPostsListener){stopPostsListener();stopPostsListener=null}byId("appScreen").classList.add("hidden");byId("authScreen").classList.remove("hidden");return}
+ try{const profile=await saveUserProfile(user);enterApp(profile.name,profile.email)}catch(e){console.error(e);alert("Signed in, but profile could not be saved: "+e.message)}
+});
+</script>
+</body>
+</html>
