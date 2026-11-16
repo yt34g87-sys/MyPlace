@@ -63,7 +63,6 @@ h1,h2,h3{margin-top:0}
 .post-actions button{background:var(--soft);color:var(--blue);border:0;border-radius:10px;padding:9px 12px;font-weight:700}
 .post-actions button.liked{background:#fee2e2;color:#dc2626}
 .comment-area{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
-.comment-list{margin-top:8px}
 .comment-item{padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;overflow-wrap:anywhere}
 .comment-form{display:flex;gap:7px;margin-top:9px}
 .comment-form input{min-width:0;flex:1;padding:10px;border:1px solid var(--line);border-radius:10px}
@@ -72,6 +71,13 @@ h1,h2,h3{margin-top:0}
 .poll-option.selected{border-color:var(--blue);background:#dbeafe}
 .poll-result{float:right;color:var(--blue);font-weight:700}
 .small-status{font-size:12px;color:var(--muted);margin-top:7px}
+.profile-stats{display:flex;justify-content:center;gap:25px;margin:16px 0}
+.profile-stats div{text-align:center}
+.profile-stats b{display:block;font-size:20px}
+.profile-stats span{font-size:12px;color:var(--muted)}
+.profile-username{color:var(--blue);font-weight:700}
+.profile-bio{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0}
+.profile-link{color:var(--blue);cursor:pointer;font-weight:700}
 body.dark{--bg:#0f172a;--card:#172235;--text:#e5edf9;--muted:#a5b4c9;--line:#334155;--soft:#20375e}
 body.dark .auth-card,body.dark .card,body.dark .topbar,body.dark .bottom-nav,body.dark .composer{background:var(--card);color:var(--text)}
 body.dark .field,body.dark .btn.outline,body.dark .composer textarea,body.dark .comment-form input{background:#172235;color:white}
@@ -88,25 +94,19 @@ body.dark .poll-option{color:white}
 <div class="auth-card">
 <h2 id="authTitle">Welcome to MyPlace</h2>
 <p class="muted center" id="authSubtitle">Your Space. Your Community.</p>
-
 <div id="nameFieldWrap" class="hidden">
 <label class="field-label" for="fullName">Full name</label>
-<input class="field" id="fullName" type="text" placeholder="Enter your name" autocomplete="name">
+<input class="field" id="fullName" type="text" placeholder="Enter your name">
 </div>
-
 <label class="field-label" for="email">Email address</label>
-<input class="field" id="email" type="email" placeholder="you@example.com" autocomplete="email">
-
+<input class="field" id="email" type="email" placeholder="you@example.com">
 <label class="field-label" for="password">Password</label>
-<input class="field" id="password" type="password" placeholder="At least 6 characters" autocomplete="current-password">
-
+<input class="field" id="password" type="password" placeholder="At least 6 characters">
 <button class="btn full" id="emailAction" type="button">Continue with Email</button>
 <div class="divider">OR</div>
 <button class="btn outline full" id="googleBtn" type="button">🌐 Continue with Google</button>
 <button class="btn outline full" id="phoneBtn" type="button">📱 Continue with Phone</button>
-
 <p class="center muted" id="authSwitch">New here? <span class="link" id="switchAuth">Create account</span></p>
-
 <div class="notice">Email/password login is connected. Google sign-in and phone OTP are not connected yet. Never share your password or OTP.</div>
 <p id="status" class="muted center" aria-live="polite"></p>
 </div>
@@ -124,11 +124,7 @@ body.dark .poll-option{color:white}
 
 <main>
 <section id="home" class="page active">
-<div class="hero">
-<h1>Your place to connect.</h1>
-<p>Learn together, find your community and discover opportunities.</p>
-</div>
-
+<div class="hero"><h1>Your place to connect.</h1><p>Learn together, find your community and discover opportunities.</p></div>
 <h3 class="section-title">Explore MyPlace</h3>
 <div class="grid">
 <div class="tile" data-go="study">📚<b>Study</b><small class="muted">Learn and share notes</small></div>
@@ -136,36 +132,29 @@ body.dark .poll-option{color:white}
 <div class="tile" data-go="reels">▶️<b>Reels</b><small class="muted">Short video space</small></div>
 <div class="tile" data-go="work">💼<b>Work</b><small class="muted">Explore opportunities</small></div>
 </div>
-
 <h3 class="section-title">Community feed</h3>
 <div class="composer">
 <label class="field-label" for="postInput">Share something with your community</label>
 <textarea id="postInput" maxlength="2000" placeholder="What would you like to share?"></textarea>
-
 <div class="actions">
 <span class="tag">Text posts · Likes · Comments · Polls</span>
 <button class="btn soft" id="pollToggle" type="button">📊 Create poll</button>
 </div>
-
 <div id="pollComposer" class="hidden card" style="margin-top:10px">
 <label class="field-label" for="pollQuestion">Poll question</label>
 <input class="field" id="pollQuestion" maxlength="180" placeholder="Ask your community...">
-<label class="field-label">Poll options (at least 2)</label>
+<label class="field-label">Poll options</label>
 <input class="field poll-input" maxlength="80" placeholder="Option 1">
 <input class="field poll-input" maxlength="80" style="margin-top:7px" placeholder="Option 2">
 <input class="field poll-input" maxlength="80" style="margin-top:7px" placeholder="Option 3 (optional)">
 <input class="field poll-input" maxlength="80" style="margin-top:7px" placeholder="Option 4 (optional)">
 </div>
-
 <div class="composer-footer">
-<span class="muted" id="postStatus" aria-live="polite">Text posts and polls are supported in this free version.</span>
+<span class="muted" id="postStatus">Text posts and polls are supported.</span>
 <button class="btn" id="publishPostBtn" type="button">＋ Post</button>
 </div>
 </div>
-
-<div id="feed">
-<article class="card"><p class="muted center">Loading community posts...</p></article>
-</div>
+<div id="feed"><article class="card center muted">Loading community posts...</article></div>
 </section>
 
 <section id="study" class="page">
@@ -180,76 +169,101 @@ body.dark .poll-option{color:white}
 <div class="hero"><h1>Communities 👥</h1><p>Find people who share your interests.</p></div>
 <input class="field" id="communitySearch" placeholder="Search communities...">
 <div id="communityList">
-<div class="card community"><div class="row"><div class="avatar">C</div><div style="flex:1"><b>Computer Science Club</b><div class="muted">Programming · Student community</div></div><button class="btn soft join-btn" type="button">Join</button></div></div>
-<div class="card community"><div class="row"><div class="avatar">B</div><div style="flex:1"><b>Books & Learning</b><div class="muted">Reading · Study community</div></div><button class="btn soft join-btn" type="button">Join</button></div></div>
-<div class="card community"><div class="row"><div class="avatar">D</div><div style="flex:1"><b>Design & Creativity</b><div class="muted">Art · Creative community</div></div><button class="btn soft join-btn" type="button">Join</button></div></div>
+<div class="card community"><div class="row"><div class="avatar">C</div><div style="flex:1"><b>Computer Science Club</b><div class="muted">Programming · Student community</div></div><button class="btn soft join-btn">Join</button></div></div>
+<div class="card community"><div class="row"><div class="avatar">B</div><div style="flex:1"><b>Books & Learning</b><div class="muted">Reading · Study community</div></div><button class="btn soft join-btn">Join</button></div></div>
+<div class="card community"><div class="row"><div class="avatar">D</div><div style="flex:1"><b>Design & Creativity</b><div class="muted">Art · Creative community</div></div><button class="btn soft join-btn">Join</button></div></div>
 </div>
 </section>
 
 <section id="reels" class="page">
 <div class="hero"><h1>MyPlace Reels ▶️</h1><p>A space for short clips from your learning and community life.</p></div>
 <div class="reel-box">🎬<br>Reel preview</div>
-<div class="card"><b>Reels are coming soon</b><p class="muted">Video upload is not enabled in this free version. You can currently share text posts and polls.</p></div>
+<div class="card"><b>Reels are coming soon</b><p class="muted">Video upload is not enabled in this free version.</p></div>
 </section>
 
 <section id="work" class="page">
 <div class="hero"><h1>Work & Opportunities 💼</h1><p>Explore projects, volunteering and skill-building opportunities.</p></div>
-<div class="card"><span class="tag">Project</span><h3>Build a student portfolio</h3><p class="muted">Practice your skills by creating a simple portfolio project.</p><button class="btn soft save-btn" type="button">Save opportunity</button></div>
-<div class="card"><span class="tag">Volunteering</span><h3>Campus community helper</h3><p class="muted">Help organize learning activities and student events.</p><button class="btn soft save-btn" type="button">Save opportunity</button></div>
+<div class="card"><span class="tag">Project</span><h3>Build a student portfolio</h3><p class="muted">Practice your skills by creating a simple portfolio project.</p><button class="btn soft save-btn">Save opportunity</button></div>
+<div class="card"><span class="tag">Volunteering</span><h3>Campus community helper</h3><p class="muted">Help organize learning activities and student events.</p><button class="btn soft save-btn">Save opportunity</button></div>
 <div class="notice">These are sample opportunities, not verified job listings.</div>
 </section>
 
 <section id="profile" class="page">
-<div class="hero"><h1>Your Profile 👤</h1><p>Make your MyPlace profile your own.</p></div>
-<div class="card center">
-<div class="avatar" id="profileAvatar" style="margin:auto;width:64px;height:64px;font-size:24px">M</div>
-<h2 id="profileName">MyPlace Member</h2>
-<p class="muted" id="profileEmail">Loading profile...</p>
-<button class="btn soft" id="editProfileBtn" type="button">Edit profile</button>
-</div>
+<div class="hero"><h1>MyPlace Profile 👤</h1><p>Your identity and connections.</p></div>
+
 <div class="card">
+<label class="field-label" for="profileSearch">Find a person by username</label>
+<div class="row">
+<input class="field" id="profileSearch" placeholder="Enter username">
+<button class="btn" id="profileSearchBtn" type="button">Search</button>
+</div>
+<p class="small-status" id="searchStatus"></p>
+</div>
+
+<div class="card center">
+<div class="avatar" id="profileAvatar" style="margin:auto;width:70px;height:70px;font-size:26px">M</div>
+<h2 id="profileName">MyPlace Member</h2>
+<div class="profile-username" id="profileUsername">@username</div>
+<p class="profile-bio" id="profileBio">No bio added yet.</p>
+
+<div class="profile-stats">
+<div><b id="followersCount">0</b><span>Followers</span></div>
+<div><b id="followingCount">0</b><span>Following</span></div>
+</div>
+
+<div id="profileActions">
+<button class="btn soft" id="editProfileBtn" type="button">Edit profile</button>
+<button class="btn hidden" id="followBtn" type="button">Follow</button>
+</div>
+</div>
+
+<div class="card" id="accountSettings">
 <b>Account settings</b>
 <p class="muted">Change the app theme or log out.</p>
 <button class="btn outline full" id="themeSettingsBtn" type="button">Toggle light / dark theme</button>
 <button class="btn outline full" id="logoutBtn" type="button">Log out</button>
+</div>
+<div class="card hidden" id="profilePostsCard">
+<b>Profile</b>
+<p class="muted" id="profileExtraText">Viewing profile</p>
 </div>
 </section>
 </main>
 
 <nav class="bottom-nav">
 <div class="nav-inner">
-<button class="nav-btn active" data-nav="home" type="button"><span>⌂</span>Home</button>
-<button class="nav-btn" data-nav="study" type="button"><span>📚</span>Study</button>
-<button class="nav-btn" data-nav="community" type="button"><span>👥</span>Community</button>
-<button class="nav-btn" data-nav="reels" type="button"><span>▶</span>Reels</button>
-<button class="nav-btn" data-nav="work" type="button"><span>💼</span>Work</button>
+<button class="nav-btn active" data-nav="home"><span>⌂</span>Home</button>
+<button class="nav-btn" data-nav="study"><span>📚</span>Study</button>
+<button class="nav-btn" data-nav="community"><span>👥</span>Community</button>
+<button class="nav-btn" data-nav="reels"><span>▶</span>Reels</button>
+<button class="nav-btn" data-nav="work"><span>💼</span>Work</button>
 </div>
 </nav>
 </section>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp, addDoc, collection, query, orderBy, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,updateProfile} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+import {getFirestore,doc,getDoc,setDoc,updateDoc,deleteDoc,serverTimestamp,addDoc,collection,query,orderBy,onSnapshot,runTransaction,getDocs,where} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
-const firebaseConfig = {
- apiKey: "AIzaSyB54QdFqO7RLTDwDd5S9990AD9HnRnLbHs",
- authDomain: "myplace-4bb5a.firebaseapp.com",
- projectId: "myplace-4bb5a",
- messagingSenderId: "449640190842",
- appId: "1:449640190842:web:26bc785bb9fc6677523cc3"
+const firebaseConfig={
+ apiKey:"AIzaSyB54QdFqO7RLTDwDd5S9990AD9HnRnLbHs",
+ authDomain:"myplace-4bb5a.firebaseapp.com",
+ projectId:"myplace-4bb5a",
+ messagingSenderId:"449640190842",
+ appId:"1:449640190842:web:26bc785bb9fc6677523cc3"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const byId=id=>document.getElementById(id);
 
 let authMode="login";
 let currentUser=null;
 let stopPostsListener=null;
 let postChildUnsubs=[];
-
-const byId=id=>document.getElementById(id);
+let viewedProfileId=null;
 
 function setStatus(message,isError=false){
  byId("status").textContent=message;
@@ -257,88 +271,93 @@ function setStatus(message,isError=false){
 }
 
 function clearPostChildListeners(){
- const oldListeners=postChildUnsubs;
+ const old=postChildUnsubs;
  postChildUnsubs=[];
- oldListeners.forEach(unsubscribe=>{
-  try{unsubscribe()}catch(error){console.warn("Listener cleanup",error)}
- });
+ old.forEach(unsub=>{try{unsub()}catch(e){}});
 }
 
 function stopPostsFeed(){
- if(stopPostsListener){
-  stopPostsListener();
-  stopPostsListener=null;
- }
+ if(stopPostsListener){stopPostsListener();stopPostsListener=null}
  clearPostChildListeners();
 }
 
 function setAuthMode(mode){
  authMode=mode;
  const signup=mode==="signup";
-
  byId("authTitle").textContent=signup?"Create your account":"Welcome to MyPlace";
  byId("authSubtitle").textContent=signup?"Join your community":"Your Space. Your Community.";
  byId("nameFieldWrap").classList.toggle("hidden",!signup);
  byId("emailAction").textContent=signup?"Create account":"Continue with Email";
  byId("password").autocomplete=signup?"new-password":"current-password";
-
  byId("authSwitch").innerHTML=signup
   ?'Already a member? <span class="link" id="switchAuth">Log in</span>'
   :'New here? <span class="link" id="switchAuth">Create account</span>';
-
  byId("switchAuth").addEventListener("click",()=>setAuthMode(signup?"login":"signup"));
  setStatus("");
+}
+
+function makeUsername(name,uid){
+ let base=(name||"member").toLowerCase().replace(/[^a-z0-9]/g,"");
+ if(base.length<3)base="member";
+ return (base.slice(0,18)+uid.slice(-5)).toLowerCase();
 }
 
 async function saveUserProfile(user,preferredName=""){
  const userRef=doc(db,"users",user.uid);
  const snap=await getDoc(userRef);
  const existing=snap.exists()?snap.data():{};
-
  const name=preferredName||user.displayName||existing.name||(user.email?user.email.split("@")[0]:"MyPlace Member");
+ let username=existing.username;
+
+ if(!username){
+  username=makeUsername(name,user.uid);
+  await setDoc(doc(db,"usernames",username),{uid:user.uid,createdAt:serverTimestamp()});
+ }
 
  const data={
   uid:user.uid,
   name,
   email:user.email||"",
+  username,
+  bio:existing.bio||"",
   updatedAt:serverTimestamp()
  };
-
  if(!snap.exists())data.createdAt=serverTimestamp();
-
  await setDoc(userRef,data,{merge:true});
- return{name,email:user.email||""};
+ return data;
 }
 
-function enterApp(name,email){
- byId("profileName").textContent=name;
- byId("profileEmail").textContent=email;
- byId("profileAvatar").textContent=(name.trim()[0]||"M").toUpperCase();
+function showPage(id){
+ const target=byId(id);
+ if(!target||!target.classList.contains("page"))return;
+ document.querySelectorAll("#appScreen main .page").forEach(p=>p.classList.remove("active"));
+ target.classList.add("active");
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.nav===id));
+ window.scrollTo(0,0);
+}
 
+function toggleTheme(){document.body.classList.toggle("dark")}
+
+function enterApp(){
  byId("authScreen").classList.add("hidden");
  byId("appScreen").classList.remove("hidden");
-
  showPage("home");
  startPostsFeed();
+ openUserProfile(currentUser.uid);
 }
 
 async function handleEmailAction(){
  const email=byId("email").value.trim();
  const password=byId("password").value;
-
  if(!email||!email.includes("@"))return alert("Please enter a valid email address.");
  if(password.length<6)return alert("Password must be at least 6 characters.");
-
  const button=byId("emailAction");
  button.disabled=true;
  button.textContent="Please wait...";
- setStatus("");
-
  try{
   if(authMode==="signup"){
    const name=byId("fullName").value.trim();
    if(!name)throw new Error("Please enter your full name.");
-
    const result=await createUserWithEmailAndPassword(auth,email,password);
    await updateProfile(result.user,{displayName:name});
    await saveUserProfile(result.user,name);
@@ -348,11 +367,9 @@ async function handleEmailAction(){
  }catch(error){
   console.error(error);
   let message=error.message||"Something went wrong.";
-
   if(error.code==="auth/email-already-in-use")message="This email already has an account. Please log in.";
   if(error.code==="auth/invalid-credential"||error.code==="auth/wrong-password"||error.code==="auth/user-not-found")message="Email or password is incorrect.";
   if(error.code==="permission-denied")message="Firestore permission denied. Check Firestore Rules.";
-
   alert(message);
  }finally{
   button.disabled=false;
@@ -360,28 +377,8 @@ async function handleEmailAction(){
  }
 }
 
-function showPage(id){
- const target=byId(id);
- if(!target||!target.classList.contains("page"))return;
-
- document.querySelectorAll("#appScreen main .page").forEach(page=>page.classList.remove("active"));
- target.classList.add("active");
-
- document.querySelectorAll(".nav-btn").forEach(button=>{
-  button.classList.toggle("active",button.dataset.nav===id);
- });
-
- window.scrollTo(0,0);
-}
-
-function toggleTheme(){
- document.body.classList.toggle("dark");
-}
-
 function formatDate(timestamp){
- return timestamp&&typeof timestamp.toDate==="function"
-  ?timestamp.toDate().toLocaleString()
-  :"Just now";
+ return timestamp&&typeof timestamp.toDate==="function"?timestamp.toDate().toLocaleString():"Just now";
 }
 
 function el(tag,cls,text){
@@ -394,71 +391,178 @@ function el(tag,cls,text){
 function clearComposer(){
  byId("postInput").value="";
  byId("pollQuestion").value="";
- document.querySelectorAll(".poll-input").forEach(input=>input.value="");
+ document.querySelectorAll(".poll-input").forEach(i=>i.value="");
  byId("pollComposer").classList.add("hidden");
 }
 
-byId("pollToggle").addEventListener("click",()=>{
- byId("pollComposer").classList.toggle("hidden");
-});
+byId("pollToggle").addEventListener("click",()=>byId("pollComposer").classList.toggle("hidden"));
 
 async function publishPost(){
  const text=byId("postInput").value.trim();
  const pollOpen=!byId("pollComposer").classList.contains("hidden");
  const question=byId("pollQuestion").value.trim();
-
- const options=[...document.querySelectorAll(".poll-input")]
-  .map(input=>input.value.trim())
-  .filter(Boolean);
-
+ const options=[...document.querySelectorAll(".poll-input")].map(i=>i.value.trim()).filter(Boolean);
  if(!currentUser)return alert("Please log in again.");
  if(!text&&!pollOpen)return alert("Write something or create a poll.");
  if(pollOpen&&(!question||options.length<2))return alert("A poll needs a question and at least 2 options.");
  if(pollOpen&&options.length!==new Set(options).size)return alert("Poll options must be different.");
-
  const button=byId("publishPostBtn");
- const status=byId("postStatus");
  button.disabled=true;
-
  try{
-  status.textContent="Saving post...";
-
+  byId("postStatus").textContent="Saving post...";
+  const profileSnap=await getDoc(doc(db,"users",currentUser.uid));
+  const profile=profileSnap.exists()?profileSnap.data():{};
   const data={
    uid:currentUser.uid,
-   authorName:currentUser.displayName||byId("profileName").textContent||"MyPlace Member",
+   authorName:profile.name||currentUser.displayName||"MyPlace Member",
+   authorUsername:profile.username||"",
    content:text,
    createdAt:serverTimestamp()
   };
-
   if(pollOpen)data.poll={question,options};
-
   await addDoc(collection(db,"posts"),data);
-
   clearComposer();
-  status.textContent="Post published!";
+  byId("postStatus").textContent="Post published!";
  }catch(error){
   console.error(error);
-  status.textContent="Could not publish post.";
-  alert("Post publish nahi hui:\n"+(error.code||"")+"\n"+error.message);
- }finally{
-  button.disabled=false;
+  byId("postStatus").textContent="Could not publish post.";
+  alert("Post publish nahi hui: "+error.message);
+ }finally{button.disabled=false}
+}
+
+async function openUserProfile(uid){
+ if(!uid||!currentUser)return;
+ try{
+  const snap=await getDoc(doc(db,"users",uid));
+  if(!snap.exists())return alert("This profile could not be found.");
+  const data=snap.data();
+  viewedProfileId=uid;
+  byId("profileName").textContent=data.name||"MyPlace Member";
+  byId("profileUsername").textContent="@"+(data.username||"unknown");
+  byId("profileBio").textContent=data.bio||"No bio added yet.";
+  byId("profileAvatar").textContent=(data.name||"M").trim()[0].toUpperCase();
+
+  const isOwn=uid===currentUser.uid;
+  byId("editProfileBtn").classList.toggle("hidden",!isOwn);
+  byId("followBtn").classList.toggle("hidden",isOwn);
+  byId("accountSettings").classList.toggle("hidden",!isOwn);
+  byId("profilePostsCard").classList.toggle("hidden",isOwn);
+  byId("profileExtraText").textContent="Viewing @"+(data.username||"unknown");
+
+  const followersSnap=await getDocs(collection(db,"users",uid,"followers"));
+  const followingSnap=await getDocs(collection(db,"users",uid,"following"));
+  byId("followersCount").textContent=followersSnap.size;
+  byId("followingCount").textContent=followingSnap.size;
+
+  if(!isOwn){
+   const followingRef=doc(db,"users",currentUser.uid,"following",uid);
+   const followingDoc=await getDoc(followingRef);
+   byId("followBtn").textContent=followingDoc.exists()?"Following · Unfollow":"＋ Follow";
+  }
+  showPage("profile");
+ }catch(error){
+  console.error(error);
+  alert("Could not load profile: "+error.message);
  }
+}
+
+async function editProfile(){
+ if(!currentUser)return;
+ try{
+  const snap=await getDoc(doc(db,"users",currentUser.uid));
+  const old=snap.exists()?snap.data():{};
+  const name=prompt("Enter your name:",old.name||"");
+  if(name===null)return;
+  if(!name.trim())return alert("Name cannot be empty.");
+  const bio=prompt("Write a short bio:",old.bio||"");
+  if(bio===null)return;
+  if(bio.length>250)return alert("Bio must be 250 characters or less.");
+  let username=prompt("Choose a username (letters and numbers only):",old.username||"");
+  if(username===null)return;
+  username=username.trim().toLowerCase().replace(/^@/,"");
+  if(!/^[a-z0-9_]{3,20}$/.test(username))return alert("Username must be 3–20 characters using letters, numbers or underscore.");
+  const oldUsername=old.username||"";
+  const newUsernameRef=doc(db,"usernames",username);
+  const oldUsernameRef=oldUsername?doc(db,"usernames",oldUsername):null;
+
+  await runTransaction(db,async transaction=>{
+   const newSnap=await transaction.get(newUsernameRef);
+   if(newSnap.exists()&&newSnap.data().uid!==currentUser.uid){
+    throw new Error("That username is already taken. Try another one.");
+   }
+   if(oldUsername&&oldUsername!==username){
+    const oldSnap=await transaction.get(oldUsernameRef);
+    if(oldSnap.exists()&&oldSnap.data().uid===currentUser.uid)transaction.delete(oldUsernameRef);
+   }
+   if(!newSnap.exists())transaction.set(newUsernameRef,{uid:currentUser.uid,createdAt:serverTimestamp()});
+   transaction.update(doc(db,"users",currentUser.uid),{
+    name:name.trim(),bio:bio.trim(),username,updatedAt:serverTimestamp()
+   });
+  });
+
+  await updateProfile(currentUser,{displayName:name.trim()});
+  await openUserProfile(currentUser.uid);
+  alert("Profile updated successfully!");
+ }catch(error){
+  console.error(error);
+  alert("Profile update failed: "+error.message);
+ }
+}
+
+async function searchProfile(){
+ let username=byId("profileSearch").value.trim().toLowerCase().replace(/^@/,"");
+ if(!username)return alert("Enter a username first.");
+ byId("searchStatus").textContent="Searching...";
+ try{
+  const usernameSnap=await getDoc(doc(db,"usernames",username));
+  if(!usernameSnap.exists()){
+   byId("searchStatus").textContent="Username not found.";
+   return;
+  }
+  byId("searchStatus").textContent="";
+  await openUserProfile(usernameSnap.data().uid);
+ }catch(error){
+  console.error(error);
+  byId("searchStatus").textContent="Search failed: "+error.message;
+ }
+}
+
+async function toggleFollow(){
+ if(!currentUser||!viewedProfileId||viewedProfileId===currentUser.uid)return;
+ const targetId=viewedProfileId;
+ const followingRef=doc(db,"users",currentUser.uid,"following",targetId);
+ const followerRef=doc(db,"users",targetId,"followers",currentUser.uid);
+ const button=byId("followBtn");
+ button.disabled=true;
+ try{
+  const existing=await getDoc(followingRef);
+  if(existing.exists()){
+   await deleteDoc(followingRef);
+   await deleteDoc(followerRef);
+  }else{
+   await setDoc(followingRef,{uid:currentUser.uid,createdAt:serverTimestamp()});
+   await setDoc(followerRef,{uid:currentUser.uid,createdAt:serverTimestamp()});
+  }
+  await openUserProfile(targetId);
+ }catch(error){
+  console.error(error);
+  alert("Follow update failed: "+error.message);
+ }finally{button.disabled=false}
 }
 
 function renderPost(postId,post){
  const article=el("article","card");
  article.id="post-"+postId;
-
  const header=el("div","row");
  const avatar=el("div","avatar",(post.authorName||"M").trim()[0].toUpperCase());
  const info=el("div");
- const author=el("b","",post.authorName||"MyPlace Member");
+ const author=el("b","profile-link",post.authorName||"MyPlace Member");
+ const username=el("div","muted",post.authorUsername?"@"+post.authorUsername:"");
  const date=el("div","muted",formatDate(post.createdAt));
-
- info.append(author,date);
+ author.addEventListener("click",()=>openUserProfile(post.uid));
+ info.append(author,username,date);
  header.append(avatar,info);
  article.append(header);
-
  if(post.content)article.append(el("p","post-text",post.content));
 
  const actions=el("div","actions post-actions");
@@ -466,74 +570,42 @@ function renderPost(postId,post){
  const commentJump=el("button","","💬 Comments");
  const shareBtn=el("button","","↗ Share");
  const likeCount=el("span","muted","Loading likes...");
-
  actions.append(likeBtn,commentJump,shareBtn,likeCount);
  article.append(actions);
 
  const postUid=currentUser.uid;
  const likesRef=collection(db,"posts",postId,"likes");
  const myLikeRef=doc(db,"posts",postId,"likes",postUid);
-
  let liked=false;
 
  const stopLikes=onSnapshot(likesRef,snapshot=>{
   likeCount.textContent="❤️ "+snapshot.size+" likes";
-  liked=snapshot.docs.some(document=>document.id===postUid);
+  liked=snapshot.docs.some(d=>d.id===postUid);
   likeBtn.classList.toggle("liked",liked);
   likeBtn.textContent=liked?"♥ Liked":"♡ Like";
- },error=>{
-  console.warn("Likes listener",error);
-  likeCount.textContent="Likes unavailable";
- });
-
+ },error=>{console.warn(error);likeCount.textContent="Likes unavailable"});
  postChildUnsubs.push(stopLikes);
 
  likeBtn.addEventListener("click",async()=>{
-  if(!currentUser)return alert("Please log in again.");
-
   likeBtn.disabled=true;
-
   try{
    await runTransaction(db,async transaction=>{
-    const snapshot=await transaction.get(myLikeRef);
-
-    if(snapshot.exists()){
-     transaction.delete(myLikeRef);
-    }else{
-     transaction.set(myLikeRef,{
-      uid:postUid,
-      createdAt:serverTimestamp()
-     });
-    }
+    const snap=await transaction.get(myLikeRef);
+    if(snap.exists())transaction.delete(myLikeRef);
+    else transaction.set(myLikeRef,{uid:postUid,createdAt:serverTimestamp()});
    });
-  }catch(error){
-   console.error(error);
-   alert("Like update failed: "+error.message);
-  }finally{
-   likeBtn.disabled=false;
-  }
+  }catch(error){alert("Like update failed: "+error.message)}
+  finally{likeBtn.disabled=false}
  });
 
  shareBtn.addEventListener("click",async()=>{
-  const shareUrl=new URL(location.href);
-  shareUrl.hash="post-"+postId;
-
+  const url=new URL(location.href);
+  url.hash="post-"+postId;
   try{
-   if(navigator.share){
-    await navigator.share({
-     title:"MyPlace post",
-     text:post.content||"Check out this MyPlace post",
-     url:shareUrl.href
-    });
-   }else if(navigator.clipboard&&window.isSecureContext){
-    await navigator.clipboard.writeText(shareUrl.href);
-    alert("Post link copied!");
-   }else{
-    window.prompt("Copy this post link:",shareUrl.href);
-   }
-  }catch(error){
-   if(error.name!=="AbortError")alert("Share unavailable. Link: "+shareUrl.href);
-  }
+   if(navigator.share)await navigator.share({title:"MyPlace post",text:post.content||"Check out this post",url:url.href});
+   else if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(url.href);alert("Post link copied!")}
+   else window.prompt("Copy this post link:",url.href);
+  }catch(error){if(error.name!=="AbortError")alert("Share unavailable: "+error.message)}
  });
 
  const comments=el("div","comment-area");
@@ -541,284 +613,158 @@ function renderPost(postId,post){
  const form=el("form","comment-form");
  const input=el("input");
  const send=el("button","btn","Send");
-
  input.placeholder="Write a comment...";
  input.maxLength=500;
  send.type="submit";
-
  form.append(input,send);
  comments.append(el("b","","Comments"),commentList,form);
  article.append(comments);
 
  const commentsRef=collection(db,"posts",postId,"comments");
-
- const stopComments=onSnapshot(
-  query(commentsRef,orderBy("createdAt","asc")),
-  snapshot=>{
-   commentList.replaceChildren();
-
-   if(snapshot.empty){
-    commentList.append(el("p","muted","No comments yet."));
-   }
-
-   snapshot.forEach(document=>{
-    const comment=document.data();
-    const line=el("div","comment-item");
-
-    line.append(
-     el("b","",comment.authorName||"Member"),
-     document.createTextNode(" "+(comment.text||""))
-    );
-
-    commentList.append(line);
-   });
-  },
-  error=>{
-   console.warn("Comments listener",error);
-   commentList.textContent="Comments unavailable.";
-  }
- );
-
+ const stopComments=onSnapshot(query(commentsRef,orderBy("createdAt","asc")),snapshot=>{
+  commentList.replaceChildren();
+  if(snapshot.empty)commentList.append(el("p","muted","No comments yet."));
+  snapshot.forEach(d=>{
+   const c=d.data();
+   const line=el("div","comment-item");
+   line.append(el("b","",c.authorName||"Member"),document.createTextNode(" "+(c.text||"")));
+   commentList.append(line);
+  });
+ },error=>{commentList.textContent="Comments unavailable."});
  postChildUnsubs.push(stopComments);
 
  form.addEventListener("submit",async event=>{
   event.preventDefault();
-
   const value=input.value.trim();
-  if(!value||!currentUser)return;
-
+  if(!value)return;
   send.disabled=true;
-
   try{
+   const profile=await getDoc(doc(db,"users",currentUser.uid));
    await addDoc(commentsRef,{
     uid:currentUser.uid,
-    authorName:currentUser.displayName||byId("profileName").textContent||"MyPlace Member",
+    authorName:profile.exists()?profile.data().name:"Member",
     text:value,
     createdAt:serverTimestamp()
    });
-
    input.value="";
-  }catch(error){
-   alert("Comment failed: "+error.message);
-  }finally{
-   send.disabled=false;
-  }
+  }catch(error){alert("Comment failed: "+error.message)}
+  finally{send.disabled=false}
  });
 
- commentJump.addEventListener("click",()=>{
-  comments.scrollIntoView({behavior:"smooth",block:"center"});
- });
+ commentJump.addEventListener("click",()=>comments.scrollIntoView({behavior:"smooth",block:"center"}));
 
  if(post.poll&&Array.isArray(post.poll.options)){
   const pollBox=el("div","card");
   pollBox.style.marginTop="12px";
   pollBox.append(el("b","",post.poll.question||"Poll"));
-
   const voteRef=collection(db,"posts",postId,"votes");
   const myVote=doc(db,"posts",postId,"votes",postUid);
 
   const stopVotes=onSnapshot(voteRef,snapshot=>{
-   const myDoc=snapshot.docs.find(document=>document.id===postUid);
+   const myDoc=snapshot.docs.find(d=>d.id===postUid);
    const total=snapshot.size;
-
-   pollBox.querySelectorAll(".poll-option,.small-status").forEach(node=>node.remove());
-
+   pollBox.querySelectorAll(".poll-option,.small-status").forEach(n=>n.remove());
    post.poll.options.forEach((option,index)=>{
-    const count=snapshot.docs.filter(document=>document.data().optionIndex===index).length;
-    const button=el("button","poll-option");
-
+    const count=snapshot.docs.filter(d=>d.data().optionIndex===index).length;
+    const button=el("button","poll-option",option+" · "+(total?Math.round(count/total*100):0)+"%");
     button.disabled=!!myDoc;
-    button.textContent=option+"  ·  "+(total?Math.round(count/total*100):0)+"%";
-
-    if(myDoc&&myDoc.data().optionIndex===index){
-     button.classList.add("selected");
-    }
-
+    if(myDoc&&myDoc.data().optionIndex===index)button.classList.add("selected");
     button.append(el("span","poll-result",String(count)));
-
     button.addEventListener("click",async()=>{
-     if(!currentUser)return;
-
      button.disabled=true;
-
      try{
       await runTransaction(db,async transaction=>{
        const old=await transaction.get(myVote);
-
-       if(!old.exists()){
-        transaction.set(myVote,{
-         uid:postUid,
-         optionIndex:index,
-         createdAt:serverTimestamp()
-        });
-       }
+       if(!old.exists())transaction.set(myVote,{uid:postUid,optionIndex:index,createdAt:serverTimestamp()});
       });
-     }catch(error){
-      alert("Vote failed: "+error.message);
-     }
+     }catch(error){alert("Vote failed: "+error.message)}
     });
-
     pollBox.append(button);
    });
-
-   pollBox.append(
-    el("div","small-status",myDoc?"You have voted.":"Choose one option to vote.")
-   );
-  },error=>{
-   console.warn("Poll listener",error);
-  });
-
+   pollBox.append(el("div","small-status",myDoc?"You have voted.":"Choose one option to vote."));
+  },error=>console.warn(error));
   postChildUnsubs.push(stopVotes);
   article.append(pollBox);
  }
-
  return article;
 }
 
 function startPostsFeed(){
  stopPostsFeed();
-
  const feed=byId("feed");
  feed.replaceChildren(el("article","card center","Loading community posts..."));
-
- stopPostsListener=onSnapshot(
-  query(collection(db,"posts"),orderBy("createdAt","desc")),
-  snapshot=>{
-   clearPostChildListeners();
-   feed.replaceChildren();
-
-   if(snapshot.empty){
-    feed.append(
-     el("article","card center","No posts yet. Be the first to share something!")
-    );
-    return;
-   }
-
-   snapshot.forEach(document=>{
-    feed.append(renderPost(document.id,document.data()));
-   });
-
-   if(location.hash.startsWith("#post-")){
-    const targetId=decodeURIComponent(location.hash.slice(1));
-    const target=byId(targetId);
-
-    if(target)target.scrollIntoView({block:"center"});
-   }
-  },
-  error=>{
-   console.error(error);
-   clearPostChildListeners();
-   feed.textContent="Could not load posts: "+error.message;
+ stopPostsListener=onSnapshot(query(collection(db,"posts"),orderBy("createdAt","desc")),snapshot=>{
+  clearPostChildListeners();
+  feed.replaceChildren();
+  if(snapshot.empty){
+   feed.append(el("article","card center","No posts yet. Be the first to share something!"));
+   return;
   }
- );
+  snapshot.forEach(d=>feed.append(renderPost(d.id,d.data())));
+  if(location.hash.startsWith("#post-")){
+   const target=byId(decodeURIComponent(location.hash.slice(1)));
+   if(target)target.scrollIntoView({block:"center"});
+  }
+ },error=>{
+  console.error(error);
+  clearPostChildListeners();
+  feed.textContent="Could not load posts: "+error.message;
+ });
 }
 
 async function logout(){
  stopPostsFeed();
-
- try{
-  await signOut(auth);
- }catch(error){
-  alert("Logout failed: "+error.message);
- }
+ try{await signOut(auth)}
+ catch(error){alert("Logout failed: "+error.message)}
 }
 
 byId("emailAction").addEventListener("click",handleEmailAction);
 byId("switchAuth").addEventListener("click",()=>setAuthMode("signup"));
-
-byId("googleBtn").addEventListener("click",()=>{
- alert("Google sign-in is not connected yet.");
-});
-
-byId("phoneBtn").addEventListener("click",()=>{
- alert("Phone OTP is not connected yet.");
-});
-
+byId("googleBtn").addEventListener("click",()=>alert("Google sign-in is not connected yet."));
+byId("phoneBtn").addEventListener("click",()=>alert("Phone OTP is not connected yet."));
 byId("themeBtn").addEventListener("click",toggleTheme);
 byId("themeSettingsBtn").addEventListener("click",toggleTheme);
-
-byId("profileTopBtn").addEventListener("click",()=>{
- showPage("profile");
-});
-
+byId("profileTopBtn").addEventListener("click",()=>openUserProfile(currentUser.uid));
 byId("logoutBtn").addEventListener("click",logout);
 byId("publishPostBtn").addEventListener("click",publishPost);
+byId("editProfileBtn").addEventListener("click",editProfile);
+byId("profileSearchBtn").addEventListener("click",searchProfile);
+byId("profileSearch").addEventListener("keydown",e=>{if(e.key==="Enter")searchProfile()});
+byId("followBtn").addEventListener("click",toggleFollow);
 
 byId("studyShareBtn").addEventListener("click",()=>{
  showPage("home");
  byId("postInput").focus();
 });
 
-byId("editProfileBtn").addEventListener("click",async()=>{
- const nameInput=prompt("Enter your profile name:",byId("profileName").textContent);
+document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.nav)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.go)));
 
- if(!nameInput||!nameInput.trim()||!currentUser)return;
-
- try{
-  const name=nameInput.trim();
-
-  await updateProfile(currentUser,{displayName:name});
-
-  await updateDoc(doc(db,"users",currentUser.uid),{
-   name,
-   updatedAt:serverTimestamp()
-  });
-
-  byId("profileName").textContent=name;
-  byId("profileAvatar").textContent=name[0].toUpperCase();
- }catch(error){
-  alert("Profile update failed: "+error.message);
- }
-});
-
-document.querySelectorAll("[data-nav]").forEach(button=>{
- button.addEventListener("click",()=>showPage(button.dataset.nav));
-});
-
-document.querySelectorAll("[data-go]").forEach(button=>{
- button.addEventListener("click",()=>showPage(button.dataset.go));
-});
-
-document.querySelectorAll(".join-btn").forEach(button=>{
- button.addEventListener("click",()=>{
-  button.textContent=button.textContent==="Join"?"Joined":"Join";
- });
-});
-
-document.querySelectorAll(".save-btn").forEach(button=>{
- button.addEventListener("click",()=>{
-  button.textContent=button.textContent==="Saved"?"Save opportunity":"Saved";
- });
-});
+document.querySelectorAll(".join-btn").forEach(b=>b.addEventListener("click",()=>{
+ b.textContent=b.textContent==="Join"?"Joined":"Join";
+}));
+document.querySelectorAll(".save-btn").forEach(b=>b.addEventListener("click",()=>{
+ b.textContent=b.textContent==="Saved"?"Save opportunity":"Saved";
+}));
 
 byId("communitySearch").addEventListener("input",event=>{
  const search=event.target.value.toLowerCase();
-
  document.querySelectorAll(".community").forEach(card=>{
-  card.classList.toggle(
-   "hidden",
-   !card.textContent.toLowerCase().includes(search)
-  );
-});
-
+  card.classList.toggle("hidden",!card.textContent.toLowerCase().includes(search));
+ });
 });
 
 onAuthStateChanged(auth,async user=>{
  currentUser=user;
-
  if(!user){
   stopPostsFeed();
   byId("appScreen").classList.add("hidden");
   byId("authScreen").classList.remove("hidden");
   return;
  }
-
  try{
-  const profile=await saveUserProfile(user);
-
-  if(auth.currentUser&&auth.currentUser.uid===user.uid){
-   enterApp(profile.name,profile.email);
-  }
+  await saveUserProfile(user);
+  if(auth.currentUser&&auth.currentUser.uid===user.uid)enterApp();
  }catch(error){
   console.error(error);
   alert("Signed in, but profile could not be saved: "+error.message);
