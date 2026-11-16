@@ -5,246 +5,310 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyPlace</title>
+
 <style>
-:root{--blue:#2563eb;--blue-dark:#1d4ed8;--bg:#f1f5ff;--card:#fff;--text:#172033;--muted:#64748b;--line:#e2e8f0;--soft:#eaf1ff}
+:root{
+  --blue:#2563eb;
+  --blue-dark:#1d4ed8;
+  --bg:#f1f5ff;
+  --card:#fff;
+  --text:#172033;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --soft:#eff6ff;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
-button,input,textarea{font:inherit}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-.auth-wrap{max-width:460px;margin:24px auto;padding:14px}
-.brand{text-align:center;color:var(--blue);font-size:32px;font-weight:800;margin:18px 0}
-.auth-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 10px 30px rgba(30,64,175,.08)}
-h1,h2,h3{margin-top:0}
-.auth-card h2{text-align:center;margin-bottom:8px}
-.muted{color:var(--muted);font-size:14px}
-.center{text-align:center}
-.field-label{display:block;color:var(--muted);font-size:14px;margin:14px 0 6px}
-.field{display:block;width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;background:white;color:#172033;outline-color:var(--blue)}
-.btn{border:0;border-radius:12px;padding:12px 15px;background:var(--blue);color:white;font-weight:700}
+.topbar{
+  position:sticky;top:0;z-index:10;
+  background:var(--card);
+  border-bottom:1px solid var(--line);
+  padding:13px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo{font-size:23px;font-weight:800;color:var(--blue)}
+.container{max-width:760px;margin:auto;padding:16px}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;margin-bottom:14px;
+}
+.muted{color:var(--muted);font-size:13px}
+.btn{
+  border:0;border-radius:10px;
+  padding:10px 15px;
+  background:var(--blue);color:white;
+  font-weight:700;
+}
 .btn:hover{background:var(--blue-dark)}
-.btn.full{width:100%;margin-top:12px}
-.btn.outline{background:white;color:var(--text);border:1px solid var(--line)}
-.btn.soft{background:var(--soft);color:var(--blue)}
-.divider{display:flex;align-items:center;gap:12px;color:var(--muted);margin:18px 0 8px;font-size:13px}
-.divider:before,.divider:after{content:"";height:1px;background:var(--line);flex:1}
-.link{color:var(--blue);font-weight:700;cursor:pointer}
-.notice{margin-top:16px;padding:12px;background:#fff7ed;color:#9a3412;border-radius:12px;font-size:12px;line-height:1.5}
-#appScreen{max-width:900px;min-height:100vh;margin:auto;padding-bottom:82px}
-.topbar{background:white;border-bottom:1px solid var(--line);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
-.topbrand{color:var(--blue);font-weight:800;font-size:22px}
-.top-actions{display:flex;gap:8px}
-.icon-btn{border:0;border-radius:10px;background:var(--soft);color:var(--blue);padding:10px 12px}
-.page{display:none;padding:18px 15px}
-.page.active{display:block}
-.hero{padding:25px 20px;border-radius:20px;color:white;background:linear-gradient(135deg,#2563eb,#60a5fa);margin-bottom:18px}
-.hero h1{margin-bottom:8px}
-.hero p{margin:0;line-height:1.5}
-.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:13px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.tile{background:var(--soft);padding:16px;border-radius:15px;cursor:pointer;min-height:105px}
-.tile b{display:block;margin:8px 0 5px}
-.row{display:flex;align-items:center;gap:10px}
-.avatar{width:42px;height:42px;flex:none;border-radius:50%;display:grid;place-items:center;background:#dbeafe;color:var(--blue);font-weight:800}
-.post-text{line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.section-title{margin:20px 0 12px;font-size:19px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);z-index:6}
-.nav-inner{max-width:900px;margin:auto;display:flex;justify-content:space-around;padding:8px 2px calc(8px + env(safe-area-inset-bottom))}
-.nav-btn{border:0;background:transparent;color:var(--muted);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:55px;padding:5px}
-.nav-btn span{font-size:20px}
-.nav-btn.active{color:var(--blue);font-weight:800}
-.reel-box{height:280px;border-radius:18px;background:linear-gradient(145deg,#1e3a8a,#7c3aed);color:white;display:grid;place-items:center;text-align:center;font-size:22px;font-weight:800;padding:20px}
-.tag{display:inline-block;background:var(--soft);color:var(--blue);border-radius:20px;padding:5px 9px;font-size:11px;font-weight:700}
-.composer{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}
-.composer textarea{width:100%;min-height:90px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:13px;outline-color:var(--blue);color:#172033;background:white}
-.composer-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}
-#postStatus{display:block;min-height:18px;line-height:1.4;flex:1}
-.post-actions button{background:var(--soft);color:var(--blue);border:0;border-radius:10px;padding:9px 12px;font-weight:700}
-.post-actions button.liked{background:#fee2e2;color:#dc2626}
-.comment-area{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
-.comment-item{padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;overflow-wrap:anywhere}
-.comment-form{display:flex;gap:7px;margin-top:9px}
-.comment-form input{min-width:0;flex:1;padding:10px;border:1px solid var(--line);border-radius:10px}
-.poll-option{display:block;width:100%;text-align:left;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;margin:7px 0;color:var(--text)}
-.poll-option:disabled{opacity:1}
-.poll-option.selected{border-color:var(--blue);background:#dbeafe}
-.poll-result{float:right;color:var(--blue);font-weight:700}
-.small-status{font-size:12px;color:var(--muted);margin-top:7px}
-.profile-stats{display:flex;justify-content:center;gap:25px;margin:16px 0}
-.profile-stats div{text-align:center}
-.profile-stats b{display:block;font-size:20px}
-.profile-stats span{font-size:12px;color:var(--muted)}
-.profile-username{color:var(--blue);font-weight:700}
-.profile-bio{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0}
-.profile-link{color:var(--blue);cursor:pointer;font-weight:700}
-body.dark{--bg:#0f172a;--card:#172235;--text:#e5edf9;--muted:#a5b4c9;--line:#334155;--soft:#20375e}
-body.dark .auth-card,body.dark .card,body.dark .topbar,body.dark .bottom-nav,body.dark .composer{background:var(--card);color:var(--text)}
-body.dark .field,body.dark .btn.outline,body.dark .composer textarea,body.dark .comment-form input{background:#172235;color:white}
-body.dark .notice{background:#422c18;color:#fed7aa}
-body.dark .poll-option{color:white}
-@media(min-width:650px){.page{padding:24px}.hero{padding:34px}}
+.btn.secondary{
+  background:var(--soft);color:var(--blue);
+  border:1px solid #bfdbfe;
+}
+.btn.outline{
+  background:transparent;color:var(--text);
+  border:1px solid var(--line);
+}
+.btn.danger{background:#fee2e2;color:#b91c1c}
+input,textarea,select{
+  width:100%;padding:12px;
+  border:1px solid var(--line);
+  border-radius:10px;background:var(--card);
+  color:var(--text);outline:none;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--blue);
+}
+textarea{resize:vertical;min-height:85px}
+.field{margin:14px 0}
+.field label{
+  display:block;font-size:14px;
+  font-weight:700;margin-bottom:7px;
+}
+.row{display:flex;gap:10px;align-items:center}
+.row>*{min-width:0}
+.row .grow{flex:1}
+.auth-wrap{
+  max-width:420px;margin:55px auto;padding:18px;
+}
+.auth-wrap .card{padding:24px}
+.auth-wrap h1{color:var(--blue);margin-top:0}
+.tabs{
+  display:flex;gap:6px;overflow:auto;
+  padding:8px;background:var(--card);
+  border-bottom:1px solid var(--line);
+  position:sticky;top:53px;z-index:9;
+}
+.tabs button{
+  border:0;background:transparent;
+  color:var(--muted);padding:10px 13px;
+  border-radius:9px;white-space:nowrap;
+}
+.tabs button.active{
+  background:var(--soft);color:var(--blue);
+  font-weight:700;
+}
+.avatar{
+  width:76px;height:76px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--soft);font-size:38px;
+  border:2px solid var(--line);flex-shrink:0;
+}
+.profile-head{display:flex;gap:18px;align-items:center}
+.stats{display:flex;gap:25px;margin:18px 0}
+.stats strong{display:block;text-align:center}
+.profile-actions{display:flex;gap:8px;margin-top:12px}
+.profile-actions button{flex:1}
+.banner{
+  border-radius:13px;padding:22px 15px;
+  color:white;margin-bottom:16px;
+  background:linear-gradient(120deg,#2563eb,#7c3aed);
+  min-height:85px;
+}
+.profile-links a{color:var(--blue);display:block;margin:7px 0;word-break:break-word}
+.post-head{display:flex;align-items:center;gap:10px}
+.small-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--soft);display:flex;
+  align-items:center;justify-content:center;font-size:21px;
+}
+.post-content{white-space:pre-wrap;line-height:1.5;margin:15px 0}
+.post-actions{display:flex;gap:12px;flex-wrap:wrap}
+.post-actions button{
+  border:0;background:transparent;color:var(--muted);
+  padding:7px 0;
+}
+.post-actions button.liked{color:#e11d48}
+.section-title{font-size:20px;margin:5px 0 14px}
+.grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:4px;
+}
+.grid-item{
+  min-height:95px;background:var(--soft);
+  display:flex;align-items:center;justify-content:center;
+  padding:10px;text-align:center;overflow-wrap:anywhere;
+}
+.editor-top{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:18px;
+}
+.editor-top h2{margin:0}
+.avatar-options{display:flex;gap:9px;flex-wrap:wrap}
+.avatar-choice{
+  width:48px;height:48px;border-radius:50%;
+  border:2px solid var(--line);background:var(--soft);
+  font-size:25px;
+}
+.avatar-choice.selected{border-color:var(--blue)}
+.color-options{display:flex;gap:10px;flex-wrap:wrap}
+.color-choice{
+  width:42px;height:42px;border-radius:10px;
+  border:3px solid white;outline:1px solid var(--line);
+}
+.color-choice.selected{outline:3px solid var(--blue)}
+.check-row{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 0;border-bottom:1px solid var(--line);
+}
+.check-row input{width:auto}
+.link-card{
+  background:var(--bg);padding:12px;
+  border-radius:12px;margin:10px 0;
+}
+.nav-bottom{
+  position:fixed;bottom:0;left:0;right:0;
+  display:flex;justify-content:space-around;
+  background:var(--card);border-top:1px solid var(--line);
+  padding:10px 3px;z-index:10;
+}
+.nav-bottom button{
+  border:0;background:transparent;color:var(--muted);
+  font-size:12px;padding:5px;
+}
+.nav-bottom button span{display:block;font-size:20px;margin-bottom:3px}
+.page{padding-bottom:75px}
+.notice{
+  background:#eff6ff;border:1px solid #bfdbfe;
+  color:#1e40af;border-radius:10px;
+  padding:11px;font-size:13px;margin:12px 0;
+}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.dark{
+  --bg:#0f172a;--card:#1e293b;--text:#e2e8f0;
+  --muted:#94a3b8;--line:#334155;--soft:#263b60;
+}
+.dark .link-card{background:#0f172a}
+.dark .notice{background:#172554;color:#bfdbfe}
+@media(max-width:480px){
+  .container{padding:11px}
+  .profile-head{gap:12px}
+  .avatar{width:68px;height:68px}
+  .stats{gap:18px}
+}
 </style>
 </head>
+
 <body>
 
-<section id="authScreen">
-<div class="auth-wrap">
-<div class="brand">🔵 MyPlace</div>
-<div class="auth-card">
-<h2 id="authTitle">Welcome to MyPlace</h2>
-<p class="muted center" id="authSubtitle">Your Space. Your Community.</p>
-<div id="nameFieldWrap" class="hidden">
-<label class="field-label" for="fullName">Full name</label>
-<input class="field" id="fullName" type="text" placeholder="Enter your name">
-</div>
-<label class="field-label" for="email">Email address</label>
-<input class="field" id="email" type="email" placeholder="you@example.com">
-<label class="field-label" for="password">Password</label>
-<input class="field" id="password" type="password" placeholder="At least 6 characters">
-<button class="btn full" id="emailAction" type="button">Continue with Email</button>
-<div class="divider">OR</div>
-<button class="btn outline full" id="googleBtn" type="button">🌐 Continue with Google</button>
-<button class="btn outline full" id="phoneBtn" type="button">📱 Continue with Phone</button>
-<p class="center muted" id="authSwitch">New here? <span class="link" id="switchAuth">Create account</span></p>
-<div class="notice">Email/password login is connected. Google sign-in and phone OTP are not connected yet. Never share your password or OTP.</div>
-<p id="status" class="muted center" aria-live="polite"></p>
-</div>
-</div>
-</section>
+<div id="authScreen" class="auth-wrap">
+  <div class="card">
+    <h1>MyPlace</h1>
+    <p class="muted">Connect. Learn. Share. Grow.</p>
 
-<section id="appScreen" class="hidden">
-<header class="topbar">
-<div class="topbrand">🔵 MyPlace</div>
-<div class="top-actions">
-<button class="icon-btn" id="themeBtn" type="button">◐</button>
-<button class="icon-btn" id="profileTopBtn" type="button">👤</button>
-</div>
-</header>
+    <div class="field">
+      <label>Email</label>
+      <input id="authEmail" type="email" placeholder="Enter your email">
+    </div>
 
-<main>
-<section id="home" class="page active">
-<div class="hero"><h1>Your place to connect.</h1><p>Learn together, find your community and discover opportunities.</p></div>
-<h3 class="section-title">Explore MyPlace</h3>
-<div class="grid">
-<div class="tile" data-go="study">📚<b>Study</b><small class="muted">Learn and share notes</small></div>
-<div class="tile" data-go="community">👥<b>Community</b><small class="muted">Find your people</small></div>
-<div class="tile" data-go="reels">▶️<b>Reels</b><small class="muted">Short video space</small></div>
-<div class="tile" data-go="work">💼<b>Work</b><small class="muted">Explore opportunities</small></div>
-</div>
-<h3 class="section-title">Community feed</h3>
-<div class="composer">
-<label class="field-label" for="postInput">Share something with your community</label>
-<textarea id="postInput" maxlength="2000" placeholder="What would you like to share?"></textarea>
-<div class="actions">
-<span class="tag">Text posts · Likes · Comments · Polls</span>
-<button class="btn soft" id="pollToggle" type="button">📊 Create poll</button>
-</div>
-<div id="pollComposer" class="hidden card" style="margin-top:10px">
-<label class="field-label" for="pollQuestion">Poll question</label>
-<input class="field" id="pollQuestion" maxlength="180" placeholder="Ask your community...">
-<label class="field-label">Poll options</label>
-<input class="field poll-input" maxlength="80" placeholder="Option 1">
-<input class="field poll-input" maxlength="80" style="margin-top:7px" placeholder="Option 2">
-<input class="field poll-input" maxlength="80" style="margin-top:7px" placeholder="Option 3 (optional)">
-<input class="field poll-input" maxlength="80" style="margin-top:7px" placeholder="Option 4 (optional)">
-</div>
-<div class="composer-footer">
-<span class="muted" id="postStatus">Text posts and polls are supported.</span>
-<button class="btn" id="publishPostBtn" type="button">＋ Post</button>
-</div>
-</div>
-<div id="feed"><article class="card center muted">Loading community posts...</article></div>
-</section>
+    <div class="field">
+      <label>Password</label>
+      <input id="authPassword" type="password" placeholder="Enter password">
+    </div>
 
-<section id="study" class="page">
-<div class="hero"><h1>Study Space 📚</h1><p>Share notes, ask questions and learn together.</p></div>
-<div class="card"><b>Mathematics</b><p class="muted">Practice, formulas and explanations.</p><span class="tag">Learning space</span></div>
-<div class="card"><b>Computer Science</b><p class="muted">Programming and technology discussions.</p><span class="tag">Learning space</span></div>
-<div class="card"><b>Physics</b><p class="muted">Concepts, problems and notes.</p><span class="tag">Learning space</span></div>
-<button class="btn full" id="studyShareBtn" type="button">＋ Share study material</button>
-</section>
-
-<section id="community" class="page">
-<div class="hero"><h1>Communities 👥</h1><p>Find people who share your interests.</p></div>
-<input class="field" id="communitySearch" placeholder="Search communities...">
-<div id="communityList">
-<div class="card community"><div class="row"><div class="avatar">C</div><div style="flex:1"><b>Computer Science Club</b><div class="muted">Programming · Student community</div></div><button class="btn soft join-btn">Join</button></div></div>
-<div class="card community"><div class="row"><div class="avatar">B</div><div style="flex:1"><b>Books & Learning</b><div class="muted">Reading · Study community</div></div><button class="btn soft join-btn">Join</button></div></div>
-<div class="card community"><div class="row"><div class="avatar">D</div><div style="flex:1"><b>Design & Creativity</b><div class="muted">Art · Creative community</div></div><button class="btn soft join-btn">Join</button></div></div>
-</div>
-</section>
-
-<section id="reels" class="page">
-<div class="hero"><h1>MyPlace Reels ▶️</h1><p>A space for short clips from your learning and community life.</p></div>
-<div class="reel-box">🎬<br>Reel preview</div>
-<div class="card"><b>Reels are coming soon</b><p class="muted">Video upload is not enabled in this free version.</p></div>
-</section>
-
-<section id="work" class="page">
-<div class="hero"><h1>Work & Opportunities 💼</h1><p>Explore projects, volunteering and skill-building opportunities.</p></div>
-<div class="card"><span class="tag">Project</span><h3>Build a student portfolio</h3><p class="muted">Practice your skills by creating a simple portfolio project.</p><button class="btn soft save-btn">Save opportunity</button></div>
-<div class="card"><span class="tag">Volunteering</span><h3>Campus community helper</h3><p class="muted">Help organize learning activities and student events.</p><button class="btn soft save-btn">Save opportunity</button></div>
-<div class="notice">These are sample opportunities, not verified job listings.</div>
-</section>
-
-<section id="profile" class="page">
-<div class="hero"><h1>MyPlace Profile 👤</h1><p>Your identity and connections.</p></div>
-
-<div class="card">
-<label class="field-label" for="profileSearch">Find a person by username</label>
-<div class="row">
-<input class="field" id="profileSearch" placeholder="Enter username">
-<button class="btn" id="profileSearchBtn" type="button">Search</button>
-</div>
-<p class="small-status" id="searchStatus"></p>
+    <button class="btn" style="width:100%" onclick="login()">Login</button>
+    <button class="btn secondary" style="width:100%;margin-top:9px" onclick="signup()">Create account</button>
+    <p id="authMessage" class="muted"></p>
+  </div>
 </div>
 
-<div class="card center">
-<div class="avatar" id="profileAvatar" style="margin:auto;width:70px;height:70px;font-size:26px">M</div>
-<h2 id="profileName">MyPlace Member</h2>
-<div class="profile-username" id="profileUsername">@username</div>
-<p class="profile-bio" id="profileBio">No bio added yet.</p>
+<div id="appScreen" class="hidden">
+  <header class="topbar">
+    <div class="logo">MyPlace</div>
+    <button class="btn secondary" onclick="openSettings()">⚙ Settings</button>
+  </header>
 
-<div class="profile-stats">
-<div><b id="followersCount">0</b><span>Followers</span></div>
-<div><b id="followingCount">0</b><span>Following</span></div>
-</div>
+  <nav class="tabs">
+    <button class="active" data-tab="home" onclick="showTab('home',this)">Home</button>
+    <button data-tab="study" onclick="showTab('study',this)">Study</button>
+    <button data-tab="community" onclick="showTab('community',this)">Community</button>
+    <button data-tab="reels" onclick="showTab('reels',this)">Reels</button>
+    <button data-tab="work" onclick="showTab('work',this)">Work</button>
+    <button data-tab="profile" onclick="showTab('profile',this)">Profile</button>
+  </nav>
 
-<div id="profileActions">
-<button class="btn soft" id="editProfileBtn" type="button">Edit profile</button>
-<button class="btn hidden" id="followBtn" type="button">Follow</button>
-</div>
-</div>
+  <main class="container page">
+    <section id="homePage">
+      <div class="card">
+        <h2 class="section-title">Share something</h2>
+        <textarea id="postText" maxlength="2000" placeholder="What's on your mind?"></textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" onclick="createPost()">Post</button>
+          <span class="muted">Share your thoughts with MyPlace</span>
+        </div>
+      </div>
+      <div id="feed"></div>
+    </section>
 
-<div class="card" id="accountSettings">
-<b>Account settings</b>
-<p class="muted">Change the app theme or log out.</p>
-<button class="btn outline full" id="themeSettingsBtn" type="button">Toggle light / dark theme</button>
-<button class="btn outline full" id="logoutBtn" type="button">Log out</button>
-</div>
-<div class="card hidden" id="profilePostsCard">
-<b>Profile</b>
-<p class="muted" id="profileExtraText">Viewing profile</p>
-</div>
-</section>
-</main>
+    <section id="studyPage" class="hidden">
+      <div class="card">
+        <h2>Study Space 📚</h2>
+        <p>Learn together, share notes and discuss topics.</p>
+        <p class="muted">More study features are coming soon.</p>
+      </div>
+    </section>
 
-<nav class="bottom-nav">
-<div class="nav-inner">
-<button class="nav-btn active" data-nav="home"><span>⌂</span>Home</button>
-<button class="nav-btn" data-nav="study"><span>📚</span>Study</button>
-<button class="nav-btn" data-nav="community"><span>👥</span>Community</button>
-<button class="nav-btn" data-nav="reels"><span>▶</span>Reels</button>
-<button class="nav-btn" data-nav="work"><span>💼</span>Work</button>
+    <section id="communityPage" class="hidden">
+      <div class="card">
+        <h2>Communities 🌍</h2>
+        <p>Find people with similar interests.</p>
+        <p class="muted">Community features are coming soon.</p>
+      </div>
+    </section>
+
+    <section id="reelsPage" class="hidden">
+      <div class="card">
+        <h2>Reels ▶</h2>
+        <p class="muted">Short videos will appear here in a future update.</p>
+      </div>
+    </section>
+
+    <section id="workPage" class="hidden">
+      <div class="card">
+        <h2>Work & Opportunities 💼</h2>
+        <p>Discover projects, collaborations and opportunities.</p>
+        <p class="muted">More features are coming soon.</p>
+      </div>
+    </section>
+
+    <section id="profilePage" class="hidden"></section>
+    <section id="editProfilePage" class="hidden"></section>
+    <section id="settingsPage" class="hidden"></section>
+    <section id="publicProfilePage" class="hidden"></section>
+  </main>
+
+  <div class="nav-bottom">
+    <button onclick="showTab('home')"><span>⌂</span>Home</button>
+    <button onclick="showTab('study')"><span>📚</span>Study</button>
+    <button onclick="showTab('community')"><span>👥</span>Community</button>
+    <button onclick="showTab('work')"><span>💼</span>Work</button>
+    <button onclick="showTab('profile')"><span>👤</span>Profile</button>
+  </div>
 </div>
-</nav>
-</section>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,updateProfile} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
-import {getFirestore,doc,getDoc,setDoc,updateDoc,deleteDoc,serverTimestamp,addDoc,collection,query,orderBy,onSnapshot,runTransaction,getDocs,where} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+import {
+  getAuth,createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,onAuthStateChanged,
+  signOut,updateProfile
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+import {
+  getFirestore,doc,getDoc,setDoc,updateDoc,
+  deleteDoc,serverTimestamp,addDoc,collection,
+  query,orderBy,onSnapshot,runTransaction,
+  getDocs,where
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
 const firebaseConfig={
  apiKey:"AIzaSyB54QdFqO7RLTDwDd5S9990AD9HnRnLbHs",
@@ -257,519 +321,559 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const db=getFirestore(app);
-const byId=id=>document.getElementById(id);
 
-let authMode="login";
 let currentUser=null;
-let stopPostsListener=null;
-let postChildUnsubs=[];
-let viewedProfileId=null;
+let myProfile={};
+let unsubscribeFeed=null;
+let currentTab="home";
+let selectedAvatar="🙂";
+let selectedBanner="blue";
 
-function setStatus(message,isError=false){
- byId("status").textContent=message;
- byId("status").style.color=isError?"#dc2626":"";
+const avatars=["🙂","😎","🚀","🦊","🐼","🐱","🐯","🦁","🐸","🤖","🎮","⚡"];
+const banners={
+ blue:"linear-gradient(120deg,#2563eb,#7c3aed)",
+ sunset:"linear-gradient(120deg,#f97316,#ec4899)",
+ ocean:"linear-gradient(120deg,#0891b2,#2563eb)",
+ green:"linear-gradient(120deg,#059669,#84cc16)",
+ dark:"linear-gradient(120deg,#111827,#475569)",
+ pink:"linear-gradient(120deg,#db2777,#9333ea)"
+};
+
+const $=id=>document.getElementById(id);
+
+function esc(value=""){
+ return String(value).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
-function clearPostChildListeners(){
- const old=postChildUnsubs;
- postChildUnsubs=[];
- old.forEach(unsub=>{try{unsub()}catch(e){}});
+function msg(text){
+ alert(text);
 }
 
-function stopPostsFeed(){
- if(stopPostsListener){stopPostsListener();stopPostsListener=null}
- clearPostChildListeners();
+function showAuthMessage(text){
+ $("authMessage").textContent=text;
 }
 
-function setAuthMode(mode){
- authMode=mode;
- const signup=mode==="signup";
- byId("authTitle").textContent=signup?"Create your account":"Welcome to MyPlace";
- byId("authSubtitle").textContent=signup?"Join your community":"Your Space. Your Community.";
- byId("nameFieldWrap").classList.toggle("hidden",!signup);
- byId("emailAction").textContent=signup?"Create account":"Continue with Email";
- byId("password").autocomplete=signup?"new-password":"current-password";
- byId("authSwitch").innerHTML=signup
-  ?'Already a member? <span class="link" id="switchAuth">Log in</span>'
-  :'New here? <span class="link" id="switchAuth">Create account</span>';
- byId("switchAuth").addEventListener("click",()=>setAuthMode(signup?"login":"signup"));
- setStatus("");
-}
-
-function makeUsername(name,uid){
- let base=(name||"member").toLowerCase().replace(/[^a-z0-9]/g,"");
- if(base.length<3)base="member";
- return (base.slice(0,18)+uid.slice(-5)).toLowerCase();
-}
-
-async function saveUserProfile(user,preferredName=""){
- const userRef=doc(db,"users",user.uid);
- const snap=await getDoc(userRef);
- const existing=snap.exists()?snap.data():{};
- const name=preferredName||user.displayName||existing.name||(user.email?user.email.split("@")[0]:"MyPlace Member");
- let username=existing.username;
-
- if(!username){
-  username=makeUsername(name,user.uid);
-  await setDoc(doc(db,"usernames",username),{uid:user.uid,createdAt:serverTimestamp()});
- }
-
- const data={
-  uid:user.uid,
-  name,
-  email:user.email||"",
-  username,
-  bio:existing.bio||"",
-  updatedAt:serverTimestamp()
- };
- if(!snap.exists())data.createdAt=serverTimestamp();
- await setDoc(userRef,data,{merge:true});
- return data;
-}
-
-function showPage(id){
- const target=byId(id);
- if(!target||!target.classList.contains("page"))return;
- document.querySelectorAll("#appScreen main .page").forEach(p=>p.classList.remove("active"));
- target.classList.add("active");
- document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.nav===id));
- window.scrollTo(0,0);
-}
-
-function toggleTheme(){document.body.classList.toggle("dark")}
-
-function enterApp(){
- byId("authScreen").classList.add("hidden");
- byId("appScreen").classList.remove("hidden");
- showPage("home");
- startPostsFeed();
- openUserProfile(currentUser.uid);
-}
-
-async function handleEmailAction(){
- const email=byId("email").value.trim();
- const password=byId("password").value;
- if(!email||!email.includes("@"))return alert("Please enter a valid email address.");
- if(password.length<6)return alert("Password must be at least 6 characters.");
- const button=byId("emailAction");
- button.disabled=true;
- button.textContent="Please wait...";
+window.login=async()=>{
+ const email=$("authEmail").value.trim();
+ const password=$("authPassword").value;
  try{
-  if(authMode==="signup"){
-   const name=byId("fullName").value.trim();
-   if(!name)throw new Error("Please enter your full name.");
-   const result=await createUserWithEmailAndPassword(auth,email,password);
-   await updateProfile(result.user,{displayName:name});
-   await saveUserProfile(result.user,name);
-  }else{
-   await signInWithEmailAndPassword(auth,email,password);
-  }
- }catch(error){
-  console.error(error);
-  let message=error.message||"Something went wrong.";
-  if(error.code==="auth/email-already-in-use")message="This email already has an account. Please log in.";
-  if(error.code==="auth/invalid-credential"||error.code==="auth/wrong-password"||error.code==="auth/user-not-found")message="Email or password is incorrect.";
-  if(error.code==="permission-denied")message="Firestore permission denied. Check Firestore Rules.";
-  alert(message);
- }finally{
-  button.disabled=false;
-  button.textContent=authMode==="signup"?"Create account":"Continue with Email";
- }
-}
+  await signInWithEmailAndPassword(auth,email,password);
+ }catch(e){showAuthMessage(e.message);}
+};
 
-function formatDate(timestamp){
- return timestamp&&typeof timestamp.toDate==="function"?timestamp.toDate().toLocaleString():"Just now";
-}
-
-function el(tag,cls,text){
- const node=document.createElement(tag);
- if(cls)node.className=cls;
- if(text!==undefined)node.textContent=text;
- return node;
-}
-
-function clearComposer(){
- byId("postInput").value="";
- byId("pollQuestion").value="";
- document.querySelectorAll(".poll-input").forEach(i=>i.value="");
- byId("pollComposer").classList.add("hidden");
-}
-
-byId("pollToggle").addEventListener("click",()=>byId("pollComposer").classList.toggle("hidden"));
-
-async function publishPost(){
- const text=byId("postInput").value.trim();
- const pollOpen=!byId("pollComposer").classList.contains("hidden");
- const question=byId("pollQuestion").value.trim();
- const options=[...document.querySelectorAll(".poll-input")].map(i=>i.value.trim()).filter(Boolean);
- if(!currentUser)return alert("Please log in again.");
- if(!text&&!pollOpen)return alert("Write something or create a poll.");
- if(pollOpen&&(!question||options.length<2))return alert("A poll needs a question and at least 2 options.");
- if(pollOpen&&options.length!==new Set(options).size)return alert("Poll options must be different.");
- const button=byId("publishPostBtn");
- button.disabled=true;
+window.signup=async()=>{
+ const email=$("authEmail").value.trim();
+ const password=$("authPassword").value;
+ if(password.length<6){showAuthMessage("Password must be at least 6 characters.");return;}
  try{
-  byId("postStatus").textContent="Saving post...";
-  const profileSnap=await getDoc(doc(db,"users",currentUser.uid));
-  const profile=profileSnap.exists()?profileSnap.data():{};
-  const data={
-   uid:currentUser.uid,
-   authorName:profile.name||currentUser.displayName||"MyPlace Member",
-   authorUsername:profile.username||"",
-   content:text,
-   createdAt:serverTimestamp()
-  };
-  if(pollOpen)data.poll={question,options};
-  await addDoc(collection(db,"posts"),data);
-  clearComposer();
-  byId("postStatus").textContent="Post published!";
- }catch(error){
-  console.error(error);
-  byId("postStatus").textContent="Could not publish post.";
-  alert("Post publish nahi hui: "+error.message);
- }finally{button.disabled=false}
-}
-
-async function openUserProfile(uid){
- if(!uid||!currentUser)return;
- try{
-  const snap=await getDoc(doc(db,"users",uid));
-  if(!snap.exists())return alert("This profile could not be found.");
-  const data=snap.data();
-  viewedProfileId=uid;
-  byId("profileName").textContent=data.name||"MyPlace Member";
-  byId("profileUsername").textContent="@"+(data.username||"unknown");
-  byId("profileBio").textContent=data.bio||"No bio added yet.";
-  byId("profileAvatar").textContent=(data.name||"M").trim()[0].toUpperCase();
-
-  const isOwn=uid===currentUser.uid;
-  byId("editProfileBtn").classList.toggle("hidden",!isOwn);
-  byId("followBtn").classList.toggle("hidden",isOwn);
-  byId("accountSettings").classList.toggle("hidden",!isOwn);
-  byId("profilePostsCard").classList.toggle("hidden",isOwn);
-  byId("profileExtraText").textContent="Viewing @"+(data.username||"unknown");
-
-  const followersSnap=await getDocs(collection(db,"users",uid,"followers"));
-  const followingSnap=await getDocs(collection(db,"users",uid,"following"));
-  byId("followersCount").textContent=followersSnap.size;
-  byId("followingCount").textContent=followingSnap.size;
-
-  if(!isOwn){
-   const followingRef=doc(db,"users",currentUser.uid,"following",uid);
-   const followingDoc=await getDoc(followingRef);
-   byId("followBtn").textContent=followingDoc.exists()?"Following · Unfollow":"＋ Follow";
-  }
-  showPage("profile");
- }catch(error){
-  console.error(error);
-  alert("Could not load profile: "+error.message);
- }
-}
-
-async function editProfile(){
- if(!currentUser)return;
- try{
-  const snap=await getDoc(doc(db,"users",currentUser.uid));
-  const old=snap.exists()?snap.data():{};
-  const name=prompt("Enter your name:",old.name||"");
-  if(name===null)return;
-  if(!name.trim())return alert("Name cannot be empty.");
-  const bio=prompt("Write a short bio:",old.bio||"");
-  if(bio===null)return;
-  if(bio.length>250)return alert("Bio must be 250 characters or less.");
-  let username=prompt("Choose a username (letters and numbers only):",old.username||"");
-  if(username===null)return;
-  username=username.trim().toLowerCase().replace(/^@/,"");
-  if(!/^[a-z0-9_]{3,20}$/.test(username))return alert("Username must be 3–20 characters using letters, numbers or underscore.");
-  const oldUsername=old.username||"";
-  const newUsernameRef=doc(db,"usernames",username);
-  const oldUsernameRef=oldUsername?doc(db,"usernames",oldUsername):null;
-
-  await runTransaction(db,async transaction=>{
-   const newSnap=await transaction.get(newUsernameRef);
-   if(newSnap.exists()&&newSnap.data().uid!==currentUser.uid){
-    throw new Error("That username is already taken. Try another one.");
-   }
-   if(oldUsername&&oldUsername!==username){
-    const oldSnap=await transaction.get(oldUsernameRef);
-    if(oldSnap.exists()&&oldSnap.data().uid===currentUser.uid)transaction.delete(oldUsernameRef);
-   }
-   if(!newSnap.exists())transaction.set(newUsernameRef,{uid:currentUser.uid,createdAt:serverTimestamp()});
-   transaction.update(doc(db,"users",currentUser.uid),{
-    name:name.trim(),bio:bio.trim(),username,updatedAt:serverTimestamp()
-   });
-  });
-
-  await updateProfile(currentUser,{displayName:name.trim()});
-  await openUserProfile(currentUser.uid);
-  alert("Profile updated successfully!");
- }catch(error){
-  console.error(error);
-  alert("Profile update failed: "+error.message);
- }
-}
-
-async function searchProfile(){
- let username=byId("profileSearch").value.trim().toLowerCase().replace(/^@/,"");
- if(!username)return alert("Enter a username first.");
- byId("searchStatus").textContent="Searching...";
- try{
-  const usernameSnap=await getDoc(doc(db,"usernames",username));
-  if(!usernameSnap.exists()){
-   byId("searchStatus").textContent="Username not found.";
-   return;
-  }
-  byId("searchStatus").textContent="";
-  await openUserProfile(usernameSnap.data().uid);
- }catch(error){
-  console.error(error);
-  byId("searchStatus").textContent="Search failed: "+error.message;
- }
-}
-
-async function toggleFollow(){
- if(!currentUser||!viewedProfileId||viewedProfileId===currentUser.uid)return;
- const targetId=viewedProfileId;
- const followingRef=doc(db,"users",currentUser.uid,"following",targetId);
- const followerRef=doc(db,"users",targetId,"followers",currentUser.uid);
- const button=byId("followBtn");
- button.disabled=true;
- try{
-  const existing=await getDoc(followingRef);
-  if(existing.exists()){
-   await deleteDoc(followingRef);
-   await deleteDoc(followerRef);
-  }else{
-   await setDoc(followingRef,{uid:currentUser.uid,createdAt:serverTimestamp()});
-   await setDoc(followerRef,{uid:currentUser.uid,createdAt:serverTimestamp()});
-  }
-  await openUserProfile(targetId);
- }catch(error){
-  console.error(error);
-  alert("Follow update failed: "+error.message);
- }finally{button.disabled=false}
-}
-
-function renderPost(postId,post){
- const article=el("article","card");
- article.id="post-"+postId;
- const header=el("div","row");
- const avatar=el("div","avatar",(post.authorName||"M").trim()[0].toUpperCase());
- const info=el("div");
- const author=el("b","profile-link",post.authorName||"MyPlace Member");
- const username=el("div","muted",post.authorUsername?"@"+post.authorUsername:"");
- const date=el("div","muted",formatDate(post.createdAt));
- author.addEventListener("click",()=>openUserProfile(post.uid));
- info.append(author,username,date);
- header.append(avatar,info);
- article.append(header);
- if(post.content)article.append(el("p","post-text",post.content));
-
- const actions=el("div","actions post-actions");
- const likeBtn=el("button","","♡ Like");
- const commentJump=el("button","","💬 Comments");
- const shareBtn=el("button","","↗ Share");
- const likeCount=el("span","muted","Loading likes...");
- actions.append(likeBtn,commentJump,shareBtn,likeCount);
- article.append(actions);
-
- const postUid=currentUser.uid;
- const likesRef=collection(db,"posts",postId,"likes");
- const myLikeRef=doc(db,"posts",postId,"likes",postUid);
- let liked=false;
-
- const stopLikes=onSnapshot(likesRef,snapshot=>{
-  likeCount.textContent="❤️ "+snapshot.size+" likes";
-  liked=snapshot.docs.some(d=>d.id===postUid);
-  likeBtn.classList.toggle("liked",liked);
-  likeBtn.textContent=liked?"♥ Liked":"♡ Like";
- },error=>{console.warn(error);likeCount.textContent="Likes unavailable"});
- postChildUnsubs.push(stopLikes);
-
- likeBtn.addEventListener("click",async()=>{
-  likeBtn.disabled=true;
-  try{
-   await runTransaction(db,async transaction=>{
-    const snap=await transaction.get(myLikeRef);
-    if(snap.exists())transaction.delete(myLikeRef);
-    else transaction.set(myLikeRef,{uid:postUid,createdAt:serverTimestamp()});
-   });
-  }catch(error){alert("Like update failed: "+error.message)}
-  finally{likeBtn.disabled=false}
- });
-
- shareBtn.addEventListener("click",async()=>{
-  const url=new URL(location.href);
-  url.hash="post-"+postId;
-  try{
-   if(navigator.share)await navigator.share({title:"MyPlace post",text:post.content||"Check out this post",url:url.href});
-   else if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(url.href);alert("Post link copied!")}
-   else window.prompt("Copy this post link:",url.href);
-  }catch(error){if(error.name!=="AbortError")alert("Share unavailable: "+error.message)}
- });
-
- const comments=el("div","comment-area");
- const commentList=el("div","comment-list");
- const form=el("form","comment-form");
- const input=el("input");
- const send=el("button","btn","Send");
- input.placeholder="Write a comment...";
- input.maxLength=500;
- send.type="submit";
- form.append(input,send);
- comments.append(el("b","","Comments"),commentList,form);
- article.append(comments);
-
- const commentsRef=collection(db,"posts",postId,"comments");
- const stopComments=onSnapshot(query(commentsRef,orderBy("createdAt","asc")),snapshot=>{
-  commentList.replaceChildren();
-  if(snapshot.empty)commentList.append(el("p","muted","No comments yet."));
-  snapshot.forEach(d=>{
-   const c=d.data();
-   const line=el("div","comment-item");
-   line.append(el("b","",c.authorName||"Member"),document.createTextNode(" "+(c.text||"")));
-   commentList.append(line);
-  });
- },error=>{commentList.textContent="Comments unavailable."});
- postChildUnsubs.push(stopComments);
-
- form.addEventListener("submit",async event=>{
-  event.preventDefault();
-  const value=input.value.trim();
-  if(!value)return;
-  send.disabled=true;
-  try{
-   const profile=await getDoc(doc(db,"users",currentUser.uid));
-   await addDoc(commentsRef,{
-    uid:currentUser.uid,
-    authorName:profile.exists()?profile.data().name:"Member",
-    text:value,
-    createdAt:serverTimestamp()
-   });
-   input.value="";
-  }catch(error){alert("Comment failed: "+error.message)}
-  finally{send.disabled=false}
- });
-
- commentJump.addEventListener("click",()=>comments.scrollIntoView({behavior:"smooth",block:"center"}));
-
- if(post.poll&&Array.isArray(post.poll.options)){
-  const pollBox=el("div","card");
-  pollBox.style.marginTop="12px";
-  pollBox.append(el("b","",post.poll.question||"Poll"));
-  const voteRef=collection(db,"posts",postId,"votes");
-  const myVote=doc(db,"posts",postId,"votes",postUid);
-
-  const stopVotes=onSnapshot(voteRef,snapshot=>{
-   const myDoc=snapshot.docs.find(d=>d.id===postUid);
-   const total=snapshot.size;
-   pollBox.querySelectorAll(".poll-option,.small-status").forEach(n=>n.remove());
-   post.poll.options.forEach((option,index)=>{
-    const count=snapshot.docs.filter(d=>d.data().optionIndex===index).length;
-    const button=el("button","poll-option",option+" · "+(total?Math.round(count/total*100):0)+"%");
-    button.disabled=!!myDoc;
-    if(myDoc&&myDoc.data().optionIndex===index)button.classList.add("selected");
-    button.append(el("span","poll-result",String(count)));
-    button.addEventListener("click",async()=>{
-     button.disabled=true;
-     try{
-      await runTransaction(db,async transaction=>{
-       const old=await transaction.get(myVote);
-       if(!old.exists())transaction.set(myVote,{uid:postUid,optionIndex:index,createdAt:serverTimestamp()});
-      });
-     }catch(error){alert("Vote failed: "+error.message)}
-    });
-    pollBox.append(button);
-   });
-   pollBox.append(el("div","small-status",myDoc?"You have voted.":"Choose one option to vote."));
-  },error=>console.warn(error));
-  postChildUnsubs.push(stopVotes);
-  article.append(pollBox);
- }
- return article;
-}
-
-function startPostsFeed(){
- stopPostsFeed();
- const feed=byId("feed");
- feed.replaceChildren(el("article","card center","Loading community posts..."));
- stopPostsListener=onSnapshot(query(collection(db,"posts"),orderBy("createdAt","desc")),snapshot=>{
-  clearPostChildListeners();
-  feed.replaceChildren();
-  if(snapshot.empty){
-   feed.append(el("article","card center","No posts yet. Be the first to share something!"));
-   return;
-  }
-  snapshot.forEach(d=>feed.append(renderPost(d.id,d.data())));
-  if(location.hash.startsWith("#post-")){
-   const target=byId(decodeURIComponent(location.hash.slice(1)));
-   if(target)target.scrollIntoView({block:"center"});
-  }
- },error=>{
-  console.error(error);
-  clearPostChildListeners();
-  feed.textContent="Could not load posts: "+error.message;
- });
-}
-
-async function logout(){
- stopPostsFeed();
- try{await signOut(auth)}
- catch(error){alert("Logout failed: "+error.message)}
-}
-
-byId("emailAction").addEventListener("click",handleEmailAction);
-byId("switchAuth").addEventListener("click",()=>setAuthMode("signup"));
-byId("googleBtn").addEventListener("click",()=>alert("Google sign-in is not connected yet."));
-byId("phoneBtn").addEventListener("click",()=>alert("Phone OTP is not connected yet."));
-byId("themeBtn").addEventListener("click",toggleTheme);
-byId("themeSettingsBtn").addEventListener("click",toggleTheme);
-byId("profileTopBtn").addEventListener("click",()=>openUserProfile(currentUser.uid));
-byId("logoutBtn").addEventListener("click",logout);
-byId("publishPostBtn").addEventListener("click",publishPost);
-byId("editProfileBtn").addEventListener("click",editProfile);
-byId("profileSearchBtn").addEventListener("click",searchProfile);
-byId("profileSearch").addEventListener("keydown",e=>{if(e.key==="Enter")searchProfile()});
-byId("followBtn").addEventListener("click",toggleFollow);
-
-byId("studyShareBtn").addEventListener("click",()=>{
- showPage("home");
- byId("postInput").focus();
-});
-
-document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.nav)));
-document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.go)));
-
-document.querySelectorAll(".join-btn").forEach(b=>b.addEventListener("click",()=>{
- b.textContent=b.textContent==="Join"?"Joined":"Join";
-}));
-document.querySelectorAll(".save-btn").forEach(b=>b.addEventListener("click",()=>{
- b.textContent=b.textContent==="Saved"?"Save opportunity":"Saved";
-}));
-
-byId("communitySearch").addEventListener("input",event=>{
- const search=event.target.value.toLowerCase();
- document.querySelectorAll(".community").forEach(card=>{
-  card.classList.toggle("hidden",!card.textContent.toLowerCase().includes(search));
- });
-});
+  await createUserWithEmailAndPassword(auth,email,password);
+ }catch(e){showAuthMessage(e.message);}
+};
 
 onAuthStateChanged(auth,async user=>{
- currentUser=user;
- if(!user){
-  stopPostsFeed();
-  byId("appScreen").classList.add("hidden");
-  byId("authScreen").classList.remove("hidden");
-  return;
- }
- try{
-  await saveUserProfile(user);
-  if(auth.currentUser&&auth.currentUser.uid===user.uid)enterApp();
- }catch(error){
-  console.error(error);
-  alert("Signed in, but profile could not be saved: "+error.message);
+ if(user){
+  currentUser=user;
+  $("authScreen").classList.add("hidden");
+  $("appScreen").classList.remove("hidden");
+  await loadMyProfile();
+  showTab("home");
+  listenFeed();
+ }else{
+  currentUser=null;
+  if(unsubscribeFeed)unsubscribeFeed();
+  $("appScreen").classList.add("hidden");
+  $("authScreen").classList.remove("hidden");
  }
 });
+
+async function loadMyProfile(){
+ const ref=doc(db,"users",currentUser.uid);
+ const snap=await getDoc(ref);
+
+ if(snap.exists()){
+  myProfile=snap.data();
+ }else{
+  const baseName=currentUser.displayName||currentUser.email.split("@")[0];
+  const username=(baseName.replace(/[^a-zA-Z0-9_]/g,"").toLowerCase()+"_"+currentUser.uid.slice(-5)).slice(0,20);
+  myProfile={
+   name:baseName,
+   username,
+   bio:"",
+   pronouns:"",
+   gender:"Male",
+   avatar:"🙂",
+   banner:"blue",
+   linkTitle:"",
+   linkUrl:"",
+   musicTitle:"",
+   musicArtist:"",
+   aiLabel:false,
+   professional:false,
+   gridOrder:["posts","about"],
+   followersCount:0,
+   followingCount:0,
+   createdAt:serverTimestamp()
+  };
+  await setDoc(ref,myProfile);
+  await setDoc(doc(db,"usernames",username),{uid:currentUser.uid});
+ }
+}
+
+window.showTab=(tab,button)=>{
+ currentTab=tab;
+ const pages=["home","study","community","reels","work","profile"];
+ pages.forEach(name=>{
+  const page=$(name+"Page");
+  if(page)page.classList.toggle("hidden",name!==tab);
+ });
+ $("editProfilePage").classList.add("hidden");
+ $("settingsPage").classList.add("hidden");
+ $("publicProfilePage").classList.add("hidden");
+
+ document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+ const target=button||document.querySelector(`.tabs button[data-tab="${tab}"]`);
+ if(target)target.classList.add("active");
+
+ if(tab==="profile")renderProfile();
+};
+
+window.createPost=async()=>{
+ const content=$("postText").value.trim();
+ if(!content){msg("Please write something first.");return;}
+ try{
+  await addDoc(collection(db,"posts"),{
+   uid:currentUser.uid,
+   name:myProfile.name||"MyPlace User",
+   username:myProfile.username||"",
+   avatar:myProfile.avatar||"🙂",
+   content,
+   createdAt:serverTimestamp()
+  });
+  $("postText").value="";
+ }catch(e){msg("Post failed: "+e.message);}
+};
+
+function listenFeed(){
+ if(unsubscribeFeed)unsubscribeFeed();
+ const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
+ unsubscribeFeed=onSnapshot(q,snapshot=>{
+  const feed=$("feed");
+  feed.innerHTML="";
+  snapshot.forEach(postDoc=>{
+   const p=postDoc.data();
+   const id=postDoc.id;
+   const div=document.createElement("div");
+   div.className="card";
+   div.innerHTML=`
+    <div class="post-head">
+     <div class="small-avatar">${esc(p.avatar||"🙂")}</div>
+     <div class="grow">
+      <strong>${esc(p.name||"MyPlace User")}</strong>
+      <div class="muted">@${esc(p.username||"user")}</div>
+     </div>
+     ${p.uid===currentUser.uid?'<span class="muted">Your post</span>':""}
+    </div>
+    <div class="post-content">${esc(p.content||"")}</div>
+    <div class="post-actions">
+     <button onclick="likePost('${id}')">♡ Like</button>
+     <button onclick="commentPost('${id}')">💬 Comment</button>
+     <button onclick="viewComments('${id}')">View comments</button>
+    </div>
+    <div id="comments-${id}"></div>
+   `;
+   feed.appendChild(div);
+  });
+  if(snapshot.empty)feed.innerHTML='<div class="card muted">No posts yet. Be the first to share something!</div>';
+ },error=>console.log(error));
+}
+
+window.likePost=async postId=>{
+ try{
+  const likeRef=doc(db,"posts",postId,"likes",currentUser.uid);
+  const existing=await getDoc(likeRef);
+  if(existing.exists()){
+   await deleteDoc(likeRef);
+  }else{
+   await setDoc(likeRef,{uid:currentUser.uid,createdAt:serverTimestamp()});
+  }
+ }catch(e){msg("Could not update like: "+e.message);}
+};
+
+window.commentPost=async postId=>{
+ const text=prompt("Write your comment:");
+ if(!text||!text.trim())return;
+ try{
+  await addDoc(collection(db,"posts",postId,"comments"),{
+   uid:currentUser.uid,
+   name:myProfile.name||"MyPlace User",
+   text:text.trim().slice(0,500),
+   createdAt:serverTimestamp()
+  });
+  msg("Comment added!");
+ }catch(e){msg("Comment failed: "+e.message);}
+};
+
+window.viewComments=async postId=>{
+ const area=$("comments-"+postId);
+ if(!area)return;
+ area.innerHTML='<p class="muted">Loading comments...</p>';
+ try{
+  const q=query(collection(db,"posts",postId,"comments"),orderBy("createdAt","asc"));
+  const snap=await getDocs(q);
+  area.innerHTML="";
+  if(snap.empty){area.innerHTML='<p class="muted">No comments yet.</p>';return;}
+  snap.forEach(d=>{
+   const c=d.data();
+   const p=document.createElement("p");
+   p.innerHTML=`<strong>${esc(c.name||"User")}:</strong> ${esc(c.text||"")}`;
+   area.appendChild(p);
+  });
+ }catch(e){area.textContent="Could not load comments.";}
+};
+
+function profileStats(){
+ return `
+  <div class="stats">
+   <div><strong>${Number(myProfile.postsCount||0)}</strong><span class="muted">Posts</span></div>
+   <div><strong>${Number(myProfile.followersCount||0)}</strong><span class="muted">Followers</span></div>
+   <div><strong>${Number(myProfile.followingCount||0)}</strong><span class="muted">Following</span></div>
+  </div>`;
+}
+
+function renderProfile(){
+ const profile=$("profilePage");
+ const banner=banners[myProfile.banner]||banners.blue;
+ const link=myProfile.linkUrl?`
+  <div class="profile-links">
+   <a href="${esc(myProfile.linkUrl)}" target="_blank" rel="noopener">
+    🔗 ${esc(myProfile.linkTitle||myProfile.linkUrl)}
+   </a>
+  </div>`:"";
+
+ profile.innerHTML=`
+  <div class="card">
+   <div class="banner" style="background:${banner}">
+    <strong>${esc(myProfile.bannerText||"Welcome to my MyPlace")}</strong>
+   </div>
+   <div class="profile-head">
+    <div class="avatar">${esc(myProfile.avatar||"🙂")}</div>
+    <div class="grow">
+     <h2 style="margin:0 0 5px">${esc(myProfile.name||"MyPlace User")}</h2>
+     <div class="muted">@${esc(myProfile.username||"username")}</div>
+     ${myProfile.pronouns?`<div class="muted">${esc(myProfile.pronouns)}</div>`:""}
+    </div>
+   </div>
+   ${profileStats()}
+   <div>${esc(myProfile.bio||"No bio added yet.")}</div>
+   ${myProfile.gender?`<p class="muted">${esc(myProfile.gender)}</p>`:""}
+   ${link}
+   ${myProfile.musicTitle?`<p>🎵 ${esc(myProfile.musicTitle)} ${myProfile.musicArtist?"— "+esc(myProfile.musicArtist):""}</p>`:""}
+   ${myProfile.aiLabel?'<p class="muted">✦ AI-generated profile</p>':""}
+   ${myProfile.professional?'<p class="muted">Professional account</p>':""}
+   <div class="profile-actions">
+    <button class="btn" onclick="openEditProfile()">Edit profile</button>
+    <button class="btn secondary" onclick="copyProfileLink()">Share profile</button>
+   </div>
+  </div>
+
+  <div class="card">
+   <h3>Profile</h3>
+   <div class="grid">
+    <div class="grid-item">▦ Posts</div>
+    <div class="grid-item">♧ About</div>
+    <div class="grid-item">☆ Saved</div>
+   </div>
+   <p class="muted">Your posts will appear in your profile grid.</p>
+  </div>
+  <div class="card">
+   <button class="btn secondary" style="width:100%" onclick="openSettings()">Account settings</button>
+  </div>
+ `;
+}
+
+window.copyProfileLink=async()=>{
+ const url=location.origin+location.pathname+"?user="+encodeURIComponent(myProfile.username||"");
+ try{
+  await navigator.clipboard.writeText(url);
+  msg("Profile link copied!");
+ }catch(e){msg(url);}
+};
+
+window.openEditProfile=()=>{
+ selectedAvatar=myProfile.avatar||"🙂";
+ selectedBanner=myProfile.banner||"blue";
+ $("profilePage").classList.add("hidden");
+ $("editProfilePage").classList.remove("hidden");
+ $("settingsPage").classList.add("hidden");
+
+ const emojis=avatars.map(a=>`
+  <button type="button" class="avatar-choice ${a===selectedAvatar?"selected":""}"
+   onclick="chooseAvatar('${a}',this)">${a}</button>`).join("");
+
+ const colorButtons=Object.keys(banners).map(c=>`
+  <button type="button" class="color-choice ${c===selectedBanner?"selected":""}"
+   style="background:${banners[c]}" onclick="chooseBanner('${c}',this)"
+   aria-label="${c}"></button>`).join("");
+
+ $("editProfilePage").innerHTML=`
+  <div class="card">
+   <div class="editor-top">
+    <button class="btn outline" onclick="cancelEdit()">← Back</button>
+    <h2>Edit profile</h2>
+   </div>
+
+   <div class="field">
+    <label>Profile avatar</label>
+    <div class="row">
+     <div class="avatar" id="avatarPreview">${esc(selectedAvatar)}</div>
+     <div class="muted">Choose an avatar below</div>
+    </div>
+    <div class="avatar-options" style="margin-top:12px">${emojis}</div>
+   </div>
+
+   <div class="field">
+    <label>Full name</label>
+    <input id="editName" maxlength="50" value="${esc(myProfile.name||"")}" placeholder="Your name">
+   </div>
+
+   <div class="field">
+    <label>Username</label>
+    <input id="editUsername" maxlength="20" value="${esc(myProfile.username||"")}" placeholder="_omii_77_">
+    <small class="muted">3–20 characters. Letters, numbers and underscores only.</small>
+   </div>
+
+   <div class="field">
+    <label>Pronouns</label>
+    <input id="editPronouns" maxlength="30" value="${esc(myProfile.pronouns||"")}" placeholder="e.g. he/him">
+   </div>
+
+   <div class="field">
+    <label>Bio</label>
+    <textarea id="editBio" maxlength="250" placeholder="Write something about yourself...">${esc(myProfile.bio||"")}</textarea>
+    <small class="muted">Maximum 250 characters.</small>
+   </div>
+
+   <div class="field">
+    <label>Gender</label>
+    <select id="editGender">
+     ${["Male","Female","Prefer not to say","Custom"].map(g=>`<option ${myProfile.gender===g?"selected":""}>${g}</option>`).join("")}
+    </select>
+   </div>
+
+   <hr>
+   <h3>Links</h3>
+   <p class="muted">Add a website or social profile link.</p>
+   <div class="field">
+    <label>Link title</label>
+    <input id="editLinkTitle" maxlength="40" value="${esc(myProfile.linkTitle||"")}" placeholder="My website">
+   </div>
+   <div class="field">
+    <label>Link URL</label>
+    <input id="editLinkUrl" value="${esc(myProfile.linkUrl||"")}" placeholder="https://example.com">
+   </div>
+
+   <hr>
+   <h3>Profile banner</h3>
+   <div class="color-options">${colorButtons}</div>
+   <div class="field">
+    <label>Banner text</label>
+    <input id="editBannerText" maxlength="70" value="${esc(myProfile.bannerText||"Welcome to my MyPlace")}">
+   </div>
+
+   <hr>
+   <h3>Music on profile 🎵</h3>
+   <div class="field">
+    <label>Song / music title</label>
+    <input id="editMusicTitle" maxlength="70" value="${esc(myProfile.musicTitle||"")}" placeholder="Music title">
+   </div>
+   <div class="field">
+    <label>Artist</label>
+    <input id="editMusicArtist" maxlength="50" value="${esc(myProfile.musicArtist||"")}" placeholder="Artist name">
+   </div>
+
+   <hr>
+   <h3>Profile preferences</h3>
+   <label class="check-row">
+    <input type="checkbox" id="editAiLabel" ${myProfile.aiLabel?"checked":""}>
+    <span>Add AI-generated profile label</span>
+   </label>
+   <label class="check-row">
+    <input type="checkbox" id="editProfessional" ${myProfile.professional?"checked":""}>
+    <span>Professional account</span>
+   </label>
+
+   <div class="field">
+    <label>Profile grid order</label>
+    <p class="muted">Choose which section appears first.</p>
+    <select id="editGridOrder">
+     <option value="posts" ${(myProfile.gridOrder||[])[0]==="posts"?"selected":""}>Posts first</option>
+     <option value="about" ${(myProfile.gridOrder||[])[0]==="about"?"selected":""}>About first</option>
+    </select>
+   </div>
+
+   <hr>
+   <h3>Verification</h3>
+   <div class="notice">
+    Verification is not available as a self-service setting. A verified badge can only be granted after MyPlace admin review.
+   </div>
+   <button class="btn secondary" onclick="requestVerification()">Request verification information</button>
+
+   <div class="notice">
+    Your email is used for account access. It is not displayed publicly on your profile.
+   </div>
+
+   <button class="btn" style="width:100%;margin-top:15px" onclick="saveProfile()">Save changes</button>
+   <button class="btn outline" style="width:100%;margin-top:9px" onclick="cancelEdit()">Cancel</button>
+   <p id="editMessage" class="muted"></p>
+  </div>
+ `;
+};
+
+window.chooseAvatar=(emoji,button)=>{
+ selectedAvatar=emoji;
+ $("avatarPreview").textContent=emoji;
+ document.querySelectorAll(".avatar-choice").forEach(b=>b.classList.remove("selected"));
+ button.classList.add("selected");
+};
+
+window.chooseBanner=(name,button)=>{
+ selectedBanner=name;
+ document.querySelectorAll(".color-choice").forEach(b=>b.classList.remove("selected"));
+ button.classList.add("selected");
+};
+
+window.cancelEdit=()=>{
+ $("editProfilePage").classList.add("hidden");
+ $("profilePage").classList.remove("hidden");
+ renderProfile();
+};
+
+window.requestVerification=()=>{
+ msg("Verification request information is not available yet. MyPlace admin approval will be required.");
+};
+
+window.saveProfile=async()=>{
+ const name=$("editName").value.trim();
+ const username=$("editUsername").value.trim().toLowerCase();
+ const bio=$("editBio").value.trim();
+ const linkTitle=$("editLinkTitle").value.trim();
+ const linkUrl=$("editLinkUrl").value.trim();
+
+ if(!name){msg("Please enter your name.");return;}
+ if(!/^[a-z0-9_]{3,20}$/.test(username)){
+  msg("Username must be 3–20 characters and contain only letters, numbers or underscores.");
+  return;
+ }
+ if(linkUrl){
+  try{
+   const parsed=new URL(linkUrl);
+   if(!["http:","https:"].includes(parsed.protocol))throw new Error();
+  }catch(e){msg("Please enter a valid link beginning with https://");return;}
+ }
+
+ const updated={
+  name,
+  username,
+  bio,
+  pronouns:$("editPronouns").value.trim(),
+  gender:$("editGender").value,
+  avatar:selectedAvatar,
+  banner:selectedBanner,
+  bannerText:$("editBannerText").value.trim(),
+  linkTitle,
+  linkUrl,
+  musicTitle:$("editMusicTitle").value.trim(),
+  musicArtist:$("editMusicArtist").value.trim(),
+  aiLabel:$("editAiLabel").checked,
+  professional:$("editProfessional").checked,
+  gridOrder:[$("editGridOrder").value,"other"],
+  updatedAt:serverTimestamp()
+ };
+
+ try{
+  await runTransaction(db,async transaction=>{
+   const userRef=doc(db,"users",currentUser.uid);
+   const userSnap=await transaction.get(userRef);
+   const oldUsername=userSnap.exists()?userSnap.data().username:"";
+
+   const newUsernameRef=doc(db,"usernames",username);
+   const newUsernameSnap=await transaction.get(newUsernameRef);
+
+   if(username!==oldUsername && newUsernameSnap.exists() &&
+      newUsernameSnap.data().uid!==currentUser.uid){
+    throw new Error("This username is already taken. Try another one.");
+   }
+
+   let oldUsernameRef=null;
+   if(oldUsername && oldUsername!==username){
+    oldUsernameRef=doc(db,"usernames",oldUsername);
+   }
+
+   transaction.set(newUsernameRef,{uid:currentUser.uid});
+   if(oldUsernameRef){
+    const oldSnap=await transaction.get(oldUsernameRef);
+    if(oldSnap.exists() && oldSnap.data().uid===currentUser.uid){
+     transaction.delete(oldUsernameRef);
+    }
+   }
+   transaction.set(userRef,updated,{merge:true});
+  });
+
+  myProfile={...myProfile,...updated};
+  await updateProfile(currentUser,{displayName:name});
+  msg("Profile updated successfully!");
+  $("editProfilePage").classList.add("hidden");
+  $("profilePage").classList.remove("hidden");
+  renderProfile();
+ }catch(e){
+  $("editMessage").textContent=e.message;
+ }
+};
+
+window.openSettings=()=>{
+ $("homePage").classList.add("hidden");
+ $("studyPage").classList.add("hidden");
+ $("communityPage").classList.add("hidden");
+ $("reelsPage").classList.add("hidden");
+ $("workPage").classList.add("hidden");
+ $("profilePage").classList.add("hidden");
+ $("editProfilePage").classList.add("hidden");
+ $("publicProfilePage").classList.add("hidden");
+ $("settingsPage").classList.remove("hidden");
+
+ $("settingsPage").innerHTML=`
+  <div class="card">
+   <div class="editor-top">
+    <button class="btn outline" onclick="showTab('profile')">← Back</button>
+    <h2>Settings</h2>
+   </div>
+   <h3>Account information</h3>
+   <p><strong>Email:</strong> ${esc(currentUser.email||"")}</p>
+   <p class="muted">Your email is private and is not shown on your public profile.</p>
+   <hr>
+   <h3>Appearance</h3>
+   <button class="btn secondary" onclick="toggleTheme()">Toggle light / dark mode</button>
+   <hr>
+   <h3>Personal information</h3>
+   <p class="muted">Keep private information such as your phone number, home address and date of birth off your public profile.</p>
+   <hr>
+   <button class="btn danger" onclick="logout()">Log out</button>
+  </div>
+ `;
+};
+
+window.toggleTheme=()=>{
+ document.body.classList.toggle("dark");
+};
+
+window.logout=async()=>{
+ if(confirm("Are you sure you want to log out?")){
+  await signOut(auth);
+ }
+};
+
 </script>
 </body>
 </html>
